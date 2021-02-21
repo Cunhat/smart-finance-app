@@ -15,28 +15,20 @@ const SideBarIdem = ({ title, showSideBar, icon, path }) => {
    );
 };
 
-function Sidebar() {
-   const [showSideBar, setShowSideBar] = useState(true);
-
-   function showHideSideBar() {
-      setShowSideBar(!showSideBar);
-   }
-
+function Sidebar({hideSideBar}) {
+   
    return (
       <>
-         <div>
-            <FontAwesomeIcon className="icon" icon={faBars} onClick={showHideSideBar} />
-         </div>
-         <div className={showSideBar ? "sideBarContainer" : "sideBarContainer hide"}>
-            <div className={showSideBar ? "sideBarItemsContainer" : "sideBarItemsContainer hide"}>
-               <SideBarIdem title={"Dashboard"} path={"/dashboard"} showSideBar={showSideBar} icon={faChartPie}></SideBarIdem>
+         <div className={hideSideBar ? "sideBarContainer" : "sideBarContainer hide"}>
+            <div className={hideSideBar ? "sideBarItemsContainer" : "sideBarItemsContainer hide"}>
+               <SideBarIdem title={"Dashboard"} path={"/dashboard"} showSideBar={hideSideBar} icon={faChartPie}></SideBarIdem>
                <SideBarIdem
                   title={"Transactions"}
                   path={"/transactions"}
-                  showSideBar={showSideBar}
+                  showSideBar={hideSideBar}
                   icon={faHandHoldingUsd}
                ></SideBarIdem>
-               <SideBarIdem title={"Settings"} path={"/settings"} showSideBar={showSideBar} icon={faCog}></SideBarIdem>
+               <SideBarIdem title={"Settings"} path={"/settings"} showSideBar={hideSideBar} icon={faCog}></SideBarIdem>
             </div>
          </div>
       </>

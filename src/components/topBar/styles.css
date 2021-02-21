@@ -1,0 +1,35 @@
+.topBarContainer {
+   height: 40px;
+   align-items: center;
+   display: flex;
+   margin: 15px 10px 10px 10px;
+}
+
+.grid-1{
+    width: 50%;
+}
+
+.grid-2{
+    width: 50%;
+    justify-content: flex-end;
+    display: flex;
+}
+
+.iconTopBar {
+   font-size: 20px;
+   color: #262b40;
+   cursor: pointer;
+   border: 1px transparent;
+   border-radius: 200px;
+   padding: 10px;
+}
+
+.iconTopBar:hover {
+   background-color: #f1f6f9;
+}
+
+.notificationIcon {
+   font-size: 20px;
+   color: #262b40;
+   cursor: pointer;
+}

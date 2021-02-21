@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.mainContainer{
+  margin-left: 250px;
+  transition: 300ms;
+}
+
+.mainContainerHidedSideBar{
+  margin-left: 90px;
+  transition: 300ms;
+}
