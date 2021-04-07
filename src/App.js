@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Sidebar from "./components/sideBar";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
-import Transactions from "./pages/Transactions";
+import Transactions from "./pages/Transactions/Transactions";
 import TopBar from "./components/topBar";
 
 function App() {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
+import UserDropDownMenu from '../userDropDownMenu'
 
 function TopBar({ showHideSideBar }) {
    const [count, setCount] = useState(0);
@@ -13,6 +14,7 @@ function TopBar({ showHideSideBar }) {
          </div>
          <div className="grid-2">
             <FontAwesomeIcon className="notificationIcon" icon={faBell} />
+            <UserDropDownMenu/>
          </div>
       </div>
    );
