@@ -12,7 +12,7 @@
     border-radius: 5px;
     margin: 10px;
     display: flex;
-    height: 500px;
+    height: 406px;
 }
 
 .gridTransation{
@@ -49,3 +49,42 @@
     cursor: pointer;
 }
 
+.transactionForm {
+    display: block;
+    height: 300px;
+}
+
+.inputFormTrans {
+    width: 80%;
+    border-radius: 5px;
+    height: 30px;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #66799e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: .0625rem solid #d1d7e0;
+}
+.inputFormTrans:active {
+    border-color: red;
+}
+
+.categoryList {
+    width: 80%;
+    border-radius: 5px;
+    height: 30px;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #66799e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: .0625rem solid #d1d7e0;
+}
