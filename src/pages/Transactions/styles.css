@@ -12,7 +12,7 @@
     border-radius: 5px;
     margin: 10px;
     display: flex;
-    height: 406px;
+    height: 460px;
 }
 
 .gridTransation{
@@ -52,39 +52,67 @@
 .transactionForm {
     display: block;
     height: 300px;
+    margin: 15px;
 }
 
 .inputFormTrans {
-    width: 80%;
+    width: 100%;
     border-radius: 5px;
-    height: 30px;
+    height: 40px;
     display: block;
     margin-bottom: 20px;
     margin-top: 10px;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #66799e;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: .0625rem solid #d1d7e0;
 }
 .inputFormTrans:active {
     border-color: red;
 }
 
 .categoryList {
-    width: 80%;
+    width: 100%;
     border-radius: 5px;
-    height: 30px;
-    display: block;
     margin-bottom: 20px;
     margin-top: 10px;
-    font-size: 1rem;
-    font-weight: 400;
     line-height: 1.5;
-    color: #66799e;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: .0625rem solid #d1d7e0;
+ 
 }
+
+.p-dropdown	{
+    display: flex !important;
+    margin: 0 !important;
+}
+
+.titleTransactionFormFirstodList{
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.titleTransactionForm{
+    display: flex;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.transactionActionButtons {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    margin-top: 15px
+}
+
+.transactionButton {
+    width: 100px;
+    
+}
+
+.p-button {
+    background-color: #262b40 !important;
+    border-color: #262b40 !important;
+}
+
+.p-button:hover {
+    background-color: #2e3650 !important;
+}
+

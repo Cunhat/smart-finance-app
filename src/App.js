@@ -6,6 +6,13 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Transactions from "./pages/Transactions/Transactions";
 import TopBar from "./components/topBar";
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
+
+
+
 
 function App() {
    const [hideSideBar, setHideSidebar] = useState(true);

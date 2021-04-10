@@ -59,13 +59,13 @@
 
 .sideBarItemIcon {
    font-size: 18px;
-   padding-right: 15px;
    color: #fff;
 }
 
 .sideBarItemLabel {
    font-size: 18;
    color: #fff;
+   padding-left: 15px;
 }
 
 .sideBarItemLabel.hide {
