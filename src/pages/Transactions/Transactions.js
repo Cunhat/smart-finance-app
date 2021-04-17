@@ -6,13 +6,9 @@ import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-
-const data = [
-   { description: "sadsadasda", value: "99.99", category: "Category 1", subCategory: "Sub category 1" },
-   { description: "sadsadasda", value: "99.99", category: "Category 1", subCategory: "Sub category 1" },
-   { description: "sadsadasda", value: "99.99", category: "Category 1", subCategory: "Sub category 1" },
-   { description: "sadsadasda", value: "99.99", category: "Category 1", subCategory: "Sub category 1" }
-];
+import { InputNumber } from "primereact/inputnumber";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const categorySelectItems = [
    { label: "New York", value: "NY" },
@@ -30,12 +26,14 @@ const subCategorySelectItems = [
    { label: "Paris", value: "PRS" }
 ];
 
+let originalRows = {};
+
 function Transactions() {
    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
    const [category, setCategory] = useState(null);
    const [subCategory, setSubCategory] = useState(null);
    const [description, setDescription] = useState(null);
-   const [value, setValue] = useState(null);
+   const [value, setValue] = useState(0);
    const [data, setData] = useState([]);
 
    const files = acceptedFiles.map((file) => (
@@ -77,6 +75,62 @@ function Transactions() {
       setData([...data, transaction]);
    }
 
+   const onRowEditInit = (event) => {
+      originalRows[event.index] = { ...data[event.index] };
+   };
+
+   const onRowEditCancel = (event) => {
+      let dataTemp = [...data];
+      dataTemp[event.index] = originalRows[event.index];
+      delete originalRows[event.index];
+
+      setData(dataTemp);
+   };
+
+   const onEditorValueChange = (data, value, field) => {
+      let updatedData = [...data];
+      updatedData[field.rowIndex][field.field] = value;
+      setData(updatedData);
+   };
+
+   const inputTextEditor = (data, newValue, field) => {
+      return (
+         <InputText type="text" value={newValue} onChange={(e) => onEditorValueChange(data, e.target.value, field)} />
+      );
+   };
+
+   function textEditor(data, typeOf) {
+      return inputTextEditor(data, typeOf.rowData.description, typeOf);
+   }
+
+   const priceBodyTemplate = (rowData) => {
+      return new Intl.NumberFormat("en-EU", { style: "currency", currency: "EUR" }).format(rowData.value);
+   };
+
+   const valueEditor = (data, typeOf) => {
+      return (
+         <InputNumber
+            value={typeOf.rowData.value}
+            onValueChange={(e) => onEditorValueChange(data, e.target.value, typeOf)}
+            mode="currency"
+            currency="EUR"
+            locale="de-DE"
+            minFractionDigits={2}
+         />
+      );
+   };
+
+   function deleteTableCol(data, type) {
+      debugger;
+      let updatedData = [...data];
+      updatedData.splice(type.rowIndex, 1);
+      setData(updatedData);
+   }
+
+   const actionBodyTemplate = (data, type) => {
+      return <FontAwesomeIcon icon={faTrashAlt} onClick={() => deleteTableCol(data, type)} />;
+   };
+
    return (
       <div className="mainPagesContainer">
          <span className="pageTitle">Transactions</span>
@@ -100,13 +154,15 @@ function Transactions() {
                      onChange={descriptionHandler}
                   ></InputText>
                   <span className="titleTransactionForm">Value</span>
-                  <InputText
+                  <InputNumber
                      value={value}
-                     type="text"
-                     className="inputFormTrans"
-                     placeholder="Value"
-                     onChange={valueHandler}
-                  ></InputText>
+                     onValueChange={valueHandler}
+                     mode="currency"
+                     currency="EUR"
+                     locale="de-DE"
+                     minFractionDigits={2}
+                     className="categoryListNumber"
+                  />
                   <span className="titleTransactionForm">Category</span>
                   <Dropdown
                      value={category}
@@ -132,37 +188,41 @@ function Transactions() {
                </div>
             </div>
          </div>
-         {data.length >0 && <div className='tableTransactionSection'>
-            <DataTable
-               value={data}
-               editMode="row"
-               dataKey="id"
-               //onRowEditInit={onRowEditInit}
-               // onRowEditCancel={onRowEditCancel}
-            >
-               <Column
-                  field="description"
-                  header="Description" /*editor={(props) => codeEditor("products3", props)}*/
-               ></Column>
-               <Column
-                  field="category"
-                  header="Category" /*editor={(props) => nameEditor("products3", props)}*/
-               ></Column>
-               <Column
-                  field="subCategory"
-                  header="SubCategory"
-                  // body={statusBodyTemplate}
-                  /* editor={(props) => statusEditor("products3", props)}*/
-               ></Column>
-               <Column
-                  field="value"
-                  header="value"
-                  // body={priceBodyTemplate}
-                  /* editor={(props) => priceEditor("products3", props)}*/
-               ></Column>
-               <Column rowEditor headerStyle={{ width: "7rem" }} bodyStyle={{ textAlign: "center" }}></Column>
-            </DataTable>
-         </div>}
+         {data.length > 0 && (
+            <div className="tableTransactionSection">
+               <DataTable
+                  value={data}
+                  editMode="row"
+                  dataKey="id"
+                  onRowEditInit={onRowEditInit}
+                  onRowEditCancel={onRowEditCancel}
+               >
+                  <Column field="description" header="Description" editor={(props) => textEditor(data, props)}></Column>
+                  <Column
+                     field="category"
+                     header="Category" /*editor={(props) => nameEditor("products3", props)}*/
+                  ></Column>
+                  <Column
+                     field="subCategory"
+                     header="SubCategory"
+                     // body={statusBodyTemplate}
+                     /* editor={(props) => statusEditor("products3", props)}*/
+                  ></Column>
+                  <Column
+                     field="value"
+                     header="value"
+                     body={priceBodyTemplate}
+                     editor={(props) => valueEditor(data, props)}
+                  ></Column>
+                  <Column rowEditor headerStyle={{ width: "7rem" }} bodyStyle={{ textAlign: "center" }}></Column>
+                  <Column
+                     body={(props, type) => actionBodyTemplate(data, type)}
+                     headerStyle={{ width: "8em", textAlign: "center" }}
+                     bodyStyle={{ textAlign: "center", overflow: "visible" }}
+                  />
+               </DataTable>
+            </div>
+         )}
       </div>
    );
 }
