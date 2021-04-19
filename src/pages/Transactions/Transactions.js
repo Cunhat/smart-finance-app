@@ -43,11 +43,11 @@ function Transactions() {
    ));
 
    function categoryHandler(event) {
-      setCategory(event.value);
+     setCategory(categorySelectItems.find(element => element.value === event.value));
    }
 
    function subCategoryHandler(event) {
-      setSubCategory(event.value);
+      setSubCategory(subCategorySelectItems.find(element => element.value === event.value));
    }
 
    function descriptionHandler(event) {
@@ -69,8 +69,8 @@ function Transactions() {
       const transaction = {
          description: description,
          value: value,
-         category: category,
-         subCategory: subCategory
+         category: category.label,
+         subCategory: subCategory.label
       };
       setData([...data, transaction]);
    }
@@ -88,6 +88,7 @@ function Transactions() {
    };
 
    const onEditorValueChange = (data, value, field) => {
+      debugger
       let updatedData = [...data];
       updatedData[field.rowIndex][field.field] = value;
       setData(updatedData);
@@ -121,7 +122,6 @@ function Transactions() {
    };
 
    function deleteTableCol(data, type) {
-      debugger;
       let updatedData = [...data];
       updatedData.splice(type.rowIndex, 1);
       setData(updatedData);
@@ -130,6 +130,19 @@ function Transactions() {
    const actionBodyTemplate = (data, type) => {
       return <FontAwesomeIcon icon={faTrashAlt} onClick={() => deleteTableCol(data, type)} />;
    };
+
+   function editCategory(data, type) {
+      return (
+         <Dropdown
+            value={type.rowData.category}
+            className="categoryList"
+            options={categorySelectItems}
+            onChange={(event) => onEditorValueChange(data, event.value, type)}
+            placeholder="Select a SubCategory"
+            scrollHeight="300px"
+         />
+      );
+   }
 
    return (
       <div className="mainPagesContainer">
@@ -165,19 +178,20 @@ function Transactions() {
                   />
                   <span className="titleTransactionForm">Category</span>
                   <Dropdown
-                     value={category}
+                     value={category?.value ? category.value : ""}
                      className="categoryList"
                      options={categorySelectItems}
-                     onChange={categoryHandler}
+                     onChange={(props) => categoryHandler(props)}
                      placeholder="Select a Category"
                      scrollHeight="300px"
                   />
                   <span className="titleTransactionForm">Sub-Category</span>
                   <Dropdown
-                     value={subCategory}
+                     value={subCategory?.value ? subCategory.value : ""}
                      className="categoryList"
                      options={subCategorySelectItems}
-                     onChange={subCategoryHandler}
+                     optionLabel="label"
+                     onChange={(props) => subCategoryHandler(props)}
                      placeholder="Select a SubCategory"
                      scrollHeight="300px"
                   />
@@ -198,15 +212,12 @@ function Transactions() {
                   onRowEditCancel={onRowEditCancel}
                >
                   <Column field="description" header="Description" editor={(props) => textEditor(data, props)}></Column>
-                  <Column
-                     field="category"
-                     header="Category" /*editor={(props) => nameEditor("products3", props)}*/
-                  ></Column>
+                  <Column field="category" header="Category" editor={(props) => editCategory(data, props)}></Column>
                   <Column
                      field="subCategory"
                      header="SubCategory"
                      // body={statusBodyTemplate}
-                     /* editor={(props) => statusEditor("products3", props)}*/
+                     editor={(props) => editCategory(data, props)}
                   ></Column>
                   <Column
                      field="value"
