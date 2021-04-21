@@ -43,11 +43,11 @@ function Transactions() {
    ));
 
    function categoryHandler(event) {
-     setCategory(categorySelectItems.find(element => element.value === event.value));
+      setCategory(categorySelectItems.find((element) => element.value === event.value));
    }
 
    function subCategoryHandler(event) {
-      setSubCategory(subCategorySelectItems.find(element => element.value === event.value));
+      setSubCategory(subCategorySelectItems.find((element) => element.value === event.value));
    }
 
    function descriptionHandler(event) {
@@ -88,7 +88,9 @@ function Transactions() {
    };
 
    const onEditorValueChange = (data, value, field) => {
-      debugger
+      if(field.field === "category"){
+         value = categorySelectItems.find((element) => element.value === value).label;
+      }
       let updatedData = [...data];
       updatedData[field.rowIndex][field.field] = value;
       setData(updatedData);
@@ -109,6 +111,7 @@ function Transactions() {
    };
 
    const valueEditor = (data, typeOf) => {
+      debugger
       return (
          <InputNumber
             value={typeOf.rowData.value}
@@ -132,11 +135,26 @@ function Transactions() {
    };
 
    function editCategory(data, type) {
+      debugger
       return (
          <Dropdown
-            value={type.rowData.category}
+            value={data[type.rowIndex].category}
             className="categoryList"
             options={categorySelectItems}
+            onChange={(event) => onEditorValueChange(data, event.value, type)}
+            placeholder="Select a Category"
+            scrollHeight="300px"
+         />
+      );
+   }
+
+   function editSubCategory(data, type) {
+      debugger
+      return (
+         <Dropdown
+            value={data[type.rowIndex].subCategory}
+            className="categoryList"
+            options={subCategorySelectItems}
             onChange={(event) => onEditorValueChange(data, event.value, type)}
             placeholder="Select a SubCategory"
             scrollHeight="300px"
@@ -216,8 +234,7 @@ function Transactions() {
                   <Column
                      field="subCategory"
                      header="SubCategory"
-                     // body={statusBodyTemplate}
-                     editor={(props) => editCategory(data, props)}
+                     editor={(props) => editSubCategory(data, props)}
                   ></Column>
                   <Column
                      field="value"
