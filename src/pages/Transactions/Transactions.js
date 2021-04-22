@@ -9,6 +9,7 @@ import { Column } from "primereact/column";
 import { InputNumber } from "primereact/inputnumber";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Calendar } from "primereact/calendar";
 
 const categorySelectItems = [
    { label: "New York", value: "NY" },
@@ -35,6 +36,7 @@ function Transactions() {
    const [description, setDescription] = useState(null);
    const [value, setValue] = useState(0);
    const [data, setData] = useState([]);
+   const [date, setDate] = useState(null);
 
    const files = acceptedFiles.map((file) => (
       <li key={file.path}>
@@ -62,17 +64,20 @@ function Transactions() {
       setCategory(null);
       setSubCategory(null);
       setDescription("");
-      setValue("");
+      setValue(0);
+      setDate(null);
    }
 
    function saveTransaction() {
       const transaction = {
          description: description,
          value: value,
+         date: date.toLocaleDateString("pt-PT"),
          category: category.label,
          subCategory: subCategory.label
       };
       setData([...data, transaction]);
+      clearAll();
    }
 
    const onRowEditInit = (event) => {
@@ -88,9 +93,12 @@ function Transactions() {
    };
 
    const onEditorValueChange = (data, value, field) => {
-      if(field.field === "category"){
+      if (field.field === "category") {
          value = categorySelectItems.find((element) => element.value === value).label;
+      } else if (field.field === "date") {
+         value = value.toLocaleDateString("pt-PT");
       }
+
       let updatedData = [...data];
       updatedData[field.rowIndex][field.field] = value;
       setData(updatedData);
@@ -111,7 +119,6 @@ function Transactions() {
    };
 
    const valueEditor = (data, typeOf) => {
-      debugger
       return (
          <InputNumber
             value={typeOf.rowData.value}
@@ -135,7 +142,6 @@ function Transactions() {
    };
 
    function editCategory(data, type) {
-      debugger
       return (
          <Dropdown
             value={data[type.rowIndex].category}
@@ -149,7 +155,6 @@ function Transactions() {
    }
 
    function editSubCategory(data, type) {
-      debugger
       return (
          <Dropdown
             value={data[type.rowIndex].subCategory}
@@ -158,6 +163,22 @@ function Transactions() {
             onChange={(event) => onEditorValueChange(data, event.value, type)}
             placeholder="Select a SubCategory"
             scrollHeight="300px"
+         />
+      );
+   }
+
+   function checkIfCanSave() {
+      return !(description?.length > 0 && value !== 0 && date !== null && category !== null && subCategory !== null);
+   }
+
+   function dateEditor(data, props) {
+      debugger
+      return (
+         <Calendar
+            id="basic"
+            className="categoryListNumber"
+            value={new Date(data[props.rowIndex].date)}
+            onChange={(e) => onEditorValueChange(data, e.value, props)}
          />
       );
    }
@@ -194,6 +215,8 @@ function Transactions() {
                      minFractionDigits={2}
                      className="categoryListNumber"
                   />
+                  <span className="titleTransactionForm">Date</span>
+                  <Calendar id="basic" className="categoryListNumber" value={date} onChange={(e) => setDate(e.value)} />
                   <span className="titleTransactionForm">Category</span>
                   <Dropdown
                      value={category?.value ? category.value : ""}
@@ -215,7 +238,12 @@ function Transactions() {
                   />
                   <div className="transactionActionButtons">
                      <Button className="transactionButton" label="Clear" onClick={clearAll} />
-                     <Button className="transactionButton" label="Save" onClick={saveTransaction} />
+                     <Button
+                        className="transactionButton"
+                        label="Save"
+                        onClick={saveTransaction}
+                        disabled={checkIfCanSave()}
+                     />
                   </div>
                </div>
             </div>
@@ -233,15 +261,16 @@ function Transactions() {
                   <Column field="category" header="Category" editor={(props) => editCategory(data, props)}></Column>
                   <Column
                      field="subCategory"
-                     header="SubCategory"
+                     header="Sub-Category"
                      editor={(props) => editSubCategory(data, props)}
                   ></Column>
                   <Column
                      field="value"
-                     header="value"
+                     header="Value"
                      body={priceBodyTemplate}
                      editor={(props) => valueEditor(data, props)}
                   ></Column>
+                  <Column field="date" header="Date" editor={(props) => dateEditor(data, props)}></Column>
                   <Column rowEditor headerStyle={{ width: "7rem" }} bodyStyle={{ textAlign: "center" }}></Column>
                   <Column
                      body={(props, type) => actionBodyTemplate(data, type)}
