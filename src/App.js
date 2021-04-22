@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Sidebar from "./components/sideBar";
 import Dashboard from "./pages/Dashboard";
-import Settings from "./pages/Settings";
+import Settings from "./pages/Settings/index";
 import Transactions from "./pages/Transactions/Transactions";
 import TopBar from "./components/topBar";
 import 'primereact/resources/themes/saga-blue/theme.css';
