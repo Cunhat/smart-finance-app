@@ -2,10 +2,42 @@
     border: .0625rem solid rgba(46,54,80,.125);
     border-radius: 5px;
     margin: 10px;
-    display: flex;
+    display: block;
     height: 540px;
     background: #ffffff;
     padding: 2rem;
     -webkit-box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+}
+
+.generalInfoMainTitle {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.generalInfoSection {
+    display: flex;
+    margin-top: 20px;
+}
+
+.generalInfoGridLeft {
+    margin: 10px 10px 10px 0px;
+    width: 50%;
+}
+
+.generalInfoGridRight {
+    margin: 10px 0px 10px 10px;
+    width: 50%;
+}
+
+.generalInfoInputs {
+    display: block;
+    width: 100%;
+    margin: 10px 0 10px 0 !important;
+}
+
+.infoTitles {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4a5073;
 }
