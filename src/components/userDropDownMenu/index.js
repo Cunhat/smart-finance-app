@@ -7,7 +7,7 @@ function UserDropDownMenu() {
   
   return (
     <div className="mainContainerUserDropMenu">
-        <img src={profile} className="imageContainer"></img>
+        <img src={profile} alt={"profilePic"} className="imageContainer"></img>
         <span>User Name</span>
         {openMenu && <div></div>}
     </div>
