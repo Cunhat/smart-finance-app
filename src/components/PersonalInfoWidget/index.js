@@ -5,9 +5,9 @@ import { Button } from "primereact/button";
 
 function PersonalInfoWidget() {
    const [firstName, setFirstName] = useState("");
-   const [lastName, setLastName] = useState("")
-   const [birthday, setBirthday] = useState("")
-   const [email, setEmail] = useState("")
+   const [lastName, setLastName] = useState("");
+   const [birthday, setBirthday] = useState("");
+   const [email, setEmail] = useState("");
 
    const [canEdit, setCanEdit] = useState(false);
 
@@ -19,32 +19,53 @@ function PersonalInfoWidget() {
                <span className="infoTitles">First Name</span>
                <InputText
                   value={firstName}
-                  className="generalInfoInputs" onChange={(e) => setFirstName(e.target.value)} 
-                  disabled = {!canEdit}
+                  className="generalInfoInputs"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  disabled={!canEdit}
                />
-               {firstName?.length === 0 && canEdit && <small id="username2-help" className="p-error p-d-block">First Name must be filled.</small>}
+               {firstName?.length === 0 && canEdit && (
+                  <small id="username2-help" className="p-error p-d-block">
+                     First Name must be filled.
+                  </small>
+               )}
                <span className="infoTitles">Birthday</span>
                <InputText
                   value={lastName}
-                  className="generalInfoInputs" onChange={(e) => setLastName(e.target.value)}
-                  disabled = {!canEdit}
+                  className="generalInfoInputs"
+                  onChange={(e) => setLastName(e.target.value)}
+                  disabled={!canEdit}
                />
-                {lastName?.length === 0 && canEdit && <small id="username2-help" className="p-error p-d-block">Last Name must be filled.</small>}
+               {lastName?.length === 0 && canEdit && (
+                  <small id="username2-help" className="p-error p-d-block">
+                     Last Name must be filled.
+                  </small>
+               )}
             </div>
             <div className="generalInfoGridRight">
                <span className="infoTitles">Last Name</span>
                <InputText
                   value={birthday}
-                  className="generalInfoInputs" onChange={(e) => setBirthday(e.target.value)}
+                  className="generalInfoInputs"
+                  onChange={(e) => setBirthday(e.target.value)}
+                  disabled={!canEdit}
                />
-                {birthday?.length === 0 && canEdit && <small id="username2-help" className="p-error p-d-block">Last Name must be filled.</small>}
+               {birthday?.length === 0 && canEdit && (
+                  <small id="username2-help" className="p-error p-d-block">
+                     Last Name must be filled.
+                  </small>
+               )}
                <span className="infoTitles">Email</span>
                <InputText
                   value={email}
-                  className="generalInfoInputs" onChange={(e) => setEmail(e.target.value)}
-                  disabled = {!canEdit}
+                  className="generalInfoInputs"
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={!canEdit}
                />
-                {email?.length === 0 && canEdit &&<small id="username2-help" className="p-error p-d-block">Email must be filled.</small>}
+               {email?.length === 0 && canEdit && (
+                  <small id="username2-help" className="p-error p-d-block">
+                     Email must be filled.
+                  </small>
+               )}
             </div>
          </div>
          <div className="generalInfoActionButtons">
@@ -57,7 +78,7 @@ function PersonalInfoWidget() {
                className="transactionButton"
                label="Save"
                // onClick={saveTransaction}
-               //  disabled={checkIfCanSave()}
+               disabled={!canEdit}
             />
          </div>
       </div>
