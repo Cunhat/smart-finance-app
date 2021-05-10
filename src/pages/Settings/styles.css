@@ -1,8 +1,22 @@
-.mainPagesContainer{
-    background-color:  #f5f8fb;
-    margin: 20px
+.mainPagesContainer {
+   background-color: #f5f8fb;
+   margin: 20px;
 }
 
-.pageTitle{
-    font-size: 24px;
+.pageTitle {
+   font-size: 24px;
+}
+
+.categoriesWidgetsContainer {
+   display: flex;
+}
+
+.categoriesWidgetsContainerGrid {
+}
+
+.listCategoriesContainerWidgetTitle {
+   font-size: 18px;
+   font-weight: bold;
+   margin-bottom: 10px;
+   display: block;
 }
