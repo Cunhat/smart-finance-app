@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./styles.css";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import {DEV_ENDPOINT} from "../../Configs"
 
 function PersonalInfoWidget() {
    const [firstName, setFirstName] = useState("");

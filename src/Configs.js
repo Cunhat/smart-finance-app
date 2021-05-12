@@ -1,0 +1,1 @@
+export const DEV_ENDPOINT = "http://localhost:8081/";

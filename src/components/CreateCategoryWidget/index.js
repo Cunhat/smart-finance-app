@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./styles.css";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { DEV_ENDPOINT } from "../../Configs";
+import axios from "axios";
 
 function CreateCategoryWidget() {
    const [newCategory, setNewCategory] = useState("");
@@ -24,7 +26,19 @@ function CreateCategoryWidget() {
    }
 
    function saveTransaction() {
-      //will call a webservice on the future
+      const data = {
+         name: newCategory
+      };
+
+      axios
+         .post(DEV_ENDPOINT + "categories/insertCategory", data, {
+            headers: {
+               "Access-Control-Allow-Origin": "*"
+            }
+         })
+         .then((response) => {
+            debugger;
+         });
       clearAll();
    }
 
