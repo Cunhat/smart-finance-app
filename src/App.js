@@ -9,6 +9,9 @@ import TopBar from "./components/topBar";
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { NotificationContainer, NotificationManager } from "react-notifications";
+import 'react-notifications/lib/notifications.css';
+
 
 
 
@@ -32,6 +35,7 @@ function App() {
                <Route path="/settings" component={Settings} />
             </Switch>
          </main>
+         <NotificationContainer />
       </Router>
    );
 }

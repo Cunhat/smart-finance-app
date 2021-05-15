@@ -4,6 +4,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DEV_ENDPOINT } from "../../Configs";
 import axios from "axios";
+import { NotificationManager } from "react-notifications";
 
 function CreateCategoryWidget() {
    const [newCategory, setNewCategory] = useState("");
@@ -31,13 +32,15 @@ function CreateCategoryWidget() {
       };
 
       axios
-         .post(DEV_ENDPOINT + "categories/insertCategory", data, {
-            headers: {
-               "Access-Control-Allow-Origin": "*"
+         .post(DEV_ENDPOINT + "categories/insertCategory", data)
+         .then((response) => {
+            if (response.status === 200) {
+               NotificationManager.success("Category successfully created", "Success!");
             }
          })
-         .then((response) => {
+         .catch((err) => {
             debugger;
+            NotificationManager.error("Error creating Category", "Ooops an error has occurred !", 5000);
          });
       clearAll();
    }
