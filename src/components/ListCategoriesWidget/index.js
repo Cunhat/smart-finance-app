@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import axios from 'axios';
+
+import { DEV_ENDPOINT } from "../../Configs";
 import "./styles.css";
 import { PanelMenu } from "primereact/panelmenu";
+import { NotificationManager } from "react-notifications";
+import Loader from "../Spinner"
 
-const items = [
+
+/*const items = [
    {
       label: "File",
       icon: "pi pi-fw pi-file",
       items: [
-         {
-            label: "New",
-            icon: "pi pi-fw pi-plus",
-            items: [
-               {
-                  label: "Bookmark",
-                  icon: "pi pi-fw pi-bookmark"
-               },
-               {
-                  label: "Video",
-                  icon: "pi pi-fw pi-video"
-               }
-            ]
-         },
          {
             label: "Delete",
             icon: "pi pi-fw pi-trash"
@@ -117,13 +110,60 @@ const items = [
          }
       ]
    }
-];
+];*/
 
 function ListCategoriesWidget() {
+   const [categories, setCategories] = useState([]);
+   const [loading, setLoading] = useState(false);
+
+   function createCategoriesObj(data){
+      if(data?.length>0){
+         let categoriesArray = [];
+         data.map(elem => {
+            let obj = {
+               label: elem.name,
+               icon: "pi pi-fw pi-file",
+               items: [
+                  {
+                     label: "Delete",
+                     icon: "pi pi-fw pi-trash"
+                  },
+                  {
+                     label: "Export",
+                     icon: "pi pi-fw pi-external-link"
+                  }
+               ]
+            }
+            categoriesArray.push(obj);
+         })
+         setCategories(categoriesArray);
+      }
+   }
+
+
+   useEffect(() => {
+      setLoading(true);
+      axios
+         .get(DEV_ENDPOINT + "categories/getAll")
+         .then((response) => {
+            if (response.status === 200) {
+               debugger;
+               createCategoriesObj(response.data)
+               NotificationManager.success("Categories successfully loaded", "Success!");
+            }
+            setLoading(false);
+         })
+         .catch((err) => {
+            NotificationManager.error("Error loading Categories", "Ooops an error has occurred !", 5000);
+            setLoading(false);
+         });
+   }, []);
+
    return (
       <div className="listCategoriesContainer">
+         {loading && <Loader /> }
          <span className="listCategoriesContainerWidgetTitle">List Categories and Sub-Categories</span>
-         <PanelMenu model={items} style={{ width: "100%" }} multiple={true} />
+         <PanelMenu model={categories} style={{ width: "100%" }} multiple={true} />
       </div>
    );
 }

@@ -5,10 +5,12 @@ import { Button } from "primereact/button";
 import { DEV_ENDPOINT } from "../../Configs";
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
+import Spinner from "../Spinner"
 
 function CreateCategoryWidget() {
    const [newCategory, setNewCategory] = useState("");
    const [canEdit, setCanEdit] = useState(false);
+   const [loading, setLoading] = useState(false);
 
    function newCategoryHandler(event) {
       setNewCategory(event.target.value);
@@ -27,6 +29,7 @@ function CreateCategoryWidget() {
    }
 
    function saveTransaction() {
+      setLoading(true);
       const data = {
          name: newCategory
       };
@@ -37,16 +40,18 @@ function CreateCategoryWidget() {
             if (response.status === 200) {
                NotificationManager.success("Category successfully created", "Success!");
             }
+            setLoading(false);
          })
          .catch((err) => {
-            debugger;
             NotificationManager.error("Error creating Category", "Ooops an error has occurred !", 5000);
+            setLoading(false);
          });
       clearAll();
    }
 
    return (
       <div className="createCategoryContainer">
+         {loading && <Spinner />}
          <span className="createCategoryTitle">Create Category</span>
          <InputText
             value={newCategory}
