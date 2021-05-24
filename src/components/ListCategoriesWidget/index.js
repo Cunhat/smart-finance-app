@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import axios from 'axios';
+import axios from "axios";
 
 import { DEV_ENDPOINT } from "../../Configs";
 import "./styles.css";
 import { PanelMenu } from "primereact/panelmenu";
 import { NotificationManager } from "react-notifications";
-import Loader from "../Spinner"
-
+import Loader from "../Spinner";
 
 /*const items = [
    {
@@ -116,30 +115,29 @@ function ListCategoriesWidget() {
    const [categories, setCategories] = useState([]);
    const [loading, setLoading] = useState(false);
 
-   function createCategoriesObj(data){
-      if(data?.length>0){
+   function createCategoriesObj(data) {
+      if (data?.length > 0) {
          let categoriesArray = [];
-         data.map(elem => {
+         data.map((elem) => {
             let obj = {
                label: elem.name,
-               icon: "pi pi-fw pi-file",
-               items: [
-                  {
-                     label: "Delete",
-                     icon: "pi pi-fw pi-trash"
-                  },
-                  {
-                     label: "Export",
-                     icon: "pi pi-fw pi-external-link"
-                  }
-               ]
-            }
+               icon: "pi pi-fw pi-file"
+            };
+
+            let items = [];
+            elem.subCategories.map((item) => {
+               let subcategories = {
+                  label: item.name,
+                  icon: "pi pi-fw pi-trash"
+               };
+               items.push(subcategories);
+            });
+            obj = { ...obj, items };
             categoriesArray.push(obj);
-         })
+         });
          setCategories(categoriesArray);
       }
    }
-
 
    useEffect(() => {
       setLoading(true);
@@ -147,8 +145,7 @@ function ListCategoriesWidget() {
          .get(DEV_ENDPOINT + "categories/getAll")
          .then((response) => {
             if (response.status === 200) {
-               debugger;
-               createCategoriesObj(response.data)
+               createCategoriesObj(response.data);
                NotificationManager.success("Categories successfully loaded", "Success!");
             }
             setLoading(false);
@@ -161,7 +158,7 @@ function ListCategoriesWidget() {
 
    return (
       <div className="listCategoriesContainer">
-         {loading && <Loader /> }
+         {loading && <Loader />}
          <span className="listCategoriesContainerWidgetTitle">List Categories and Sub-Categories</span>
          <PanelMenu model={categories} style={{ width: "100%" }} multiple={true} />
       </div>
