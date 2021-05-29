@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
+
+import axios from "axios";
+
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
@@ -12,12 +15,16 @@ const subCategorySelectItems = [
     { label: "Paris", value: "PRS" }
  ];
 
-
-function CreateSubCategoryWidget() {
+function CreateSubCategoryWidget({categories}) {
    const [newSubCategory, setNewSubCategory] = useState("");
    const [canEdit, setCanEdit] = useState(false);
    const [category, setCategory] = useState("");
 
+   useEffect(()=> {
+      console.log(categories);
+   },[categories]);
+
+   
    function newCategoryHandler(event) {
     setNewSubCategory(event.target.value);
    }
