@@ -6,6 +6,8 @@ import axios from "axios";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
+import { DEV_ENDPOINT } from "../../Configs";
+import { NotificationManager } from "react-notifications";
 
 const subCategorySelectItems = [
     { label: "New York", value: "NY" },
@@ -19,10 +21,25 @@ function CreateSubCategoryWidget({categories}) {
    const [newSubCategory, setNewSubCategory] = useState("");
    const [canEdit, setCanEdit] = useState(false);
    const [category, setCategory] = useState("");
+   const [listOfCategories, setLisOfCategories] = useState([]);
 
    useEffect(()=> {
-      console.log(categories);
+      if(categories?.length > 0){
+         createCategories();
+      }
    },[categories]);
+
+   function createCategories(){
+      let arr = [];
+      categories.map(category => {
+         let obj = {
+            label: category.label,
+            value: category.id
+         };
+         arr.push(obj);
+      });
+      setLisOfCategories(arr);
+   }
 
    
    function newCategoryHandler(event) {
@@ -43,7 +60,20 @@ function CreateSubCategoryWidget({categories}) {
    }
 
    function saveSubCategory() {
-      //will call a webservice on the future
+      let data = {
+         name: newSubCategory
+      }
+
+      axios
+         .post(DEV_ENDPOINT + "subCategories/insertSubCategories/"+category, data)
+         .then((response) => {
+            if (response.status === 200) {
+               NotificationManager.success("Sub-Category successfully created", "Success!");
+            }
+         })
+         .catch((err) => {
+            NotificationManager.error("Error creatinbg Sub-Category", "Ooops an error has occurred !", 5000);
+         });
       clearAll();
    }
 
@@ -58,7 +88,7 @@ function CreateSubCategoryWidget({categories}) {
          <Dropdown
             value={category}
             className="categoryList"
-            options={subCategorySelectItems}
+            options={listOfCategories}
             onChange={(props) => onEditorValueChange( props)}
             placeholder="Select a Category"
             scrollHeight="300px"
