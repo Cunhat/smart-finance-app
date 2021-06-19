@@ -1,16 +1,29 @@
-import React, { useState } from "react";
-import "./styles.css";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import {DEV_ENDPOINT} from "../../Configs"
+import React, { useState, useRef } from 'react';
+import './styles.css';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { DEV_ENDPOINT } from '../../Configs';
+import { useReducer } from 'react';
 
 function PersonalInfoWidget() {
-   const [firstName, setFirstName] = useState("");
-   const [lastName, setLastName] = useState("");
+   //const [firstName, setFirstName] = useState("");
+   /* const [lastName, setLastName] = useState("");
    const [birthday, setBirthday] = useState("");
-   const [email, setEmail] = useState("");
+   const [email, setEmail] = useState("");*/
 
    const [canEdit, setCanEdit] = useState(false);
+
+   const firstName = useRef('');
+   const lastName = useRef('');
+   const birthday = useRef('');
+   const email = useRef('');
+
+   function saveTransaction() {
+      console.log(firstName.current?.value);
+      console.log(lastName.current?.value);
+      console.log(birthday.current?.value);
+      console.log(email.current?.value);
+   }
 
    return (
       <div className="personalInfoContainer">
@@ -19,9 +32,9 @@ function PersonalInfoWidget() {
             <div className="generalInfoGridLeft">
                <span className="infoTitles">First Name</span>
                <InputText
-                  value={firstName}
+                  ref={firstName}
                   className="generalInfoInputs"
-                  onChange={(e) => setFirstName(e.target.value)}
+                  //onChange={(e) => setFirstName(e.target.value)}
                   disabled={!canEdit}
                />
                {firstName?.length === 0 && canEdit && (
@@ -31,9 +44,9 @@ function PersonalInfoWidget() {
                )}
                <span className="infoTitles">Birthday</span>
                <InputText
-                  value={lastName}
+                  ref={lastName}
                   className="generalInfoInputs"
-                  onChange={(e) => setLastName(e.target.value)}
+                  //onChange={(e) => setLastName(e.target.value)}
                   disabled={!canEdit}
                />
                {lastName?.length === 0 && canEdit && (
@@ -45,9 +58,9 @@ function PersonalInfoWidget() {
             <div className="generalInfoGridRight">
                <span className="infoTitles">Last Name</span>
                <InputText
-                  value={birthday}
+                  ref={birthday}
                   className="generalInfoInputs"
-                  onChange={(e) => setBirthday(e.target.value)}
+                  //onChange={(e) => setBirthday(e.target.value)}
                   disabled={!canEdit}
                />
                {birthday?.length === 0 && canEdit && (
@@ -57,9 +70,9 @@ function PersonalInfoWidget() {
                )}
                <span className="infoTitles">Email</span>
                <InputText
-                  value={email}
+                  ref={email}
                   className="generalInfoInputs"
-                  onChange={(e) => setEmail(e.target.value)}
+                  // onChange={(e) => setEmail(e.target.value)}
                   disabled={!canEdit}
                />
                {email?.length === 0 && canEdit && (
@@ -72,15 +85,10 @@ function PersonalInfoWidget() {
          <div className="generalInfoActionButtons">
             <Button
                className="personalInfoButtons"
-               label={canEdit ? "Cancel" : "Edit"}
+               label={canEdit ? 'Cancel' : 'Edit'}
                onClick={() => setCanEdit(!canEdit)}
             />
-            <Button
-               className="transactionButton"
-               label="Save"
-               // onClick={saveTransaction}
-               disabled={!canEdit}
-            />
+            <Button className="transactionButton" label="Save" onClick={saveTransaction} disabled={!canEdit} />
          </div>
       </div>
    );
