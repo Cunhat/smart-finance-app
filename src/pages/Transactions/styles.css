@@ -1,147 +1,148 @@
-.mainPagesContainer{
-    background-color:  #f5f8fb;
-    margin: 20px
+.mainPagesContainer {
+  background-color: #f5f8fb;
+  margin: 20px;
 }
 
-.pageTitle{
-    font-size: 24px;
+.pageTitle {
+  font-size: 24px;
 }
 
-.createTransactionSection{
-    border: .0625rem solid rgba(46,54,80,.125);
-    border-radius: 5px;
-    margin: 10px;
-    display: flex;
-    height: 560px;
-    background: #ffffff;
-    padding: 2rem;
-    -webkit-box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
-    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+.createTransactionSection {
+  border: 0.0625rem solid rgba(46, 54, 80, 0.125);
+  border-radius: 5px;
+  margin: 10px;
+  display: flex;
+  height: 560px;
+  background: #ffffff;
+  padding: 2rem;
+  -webkit-box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
 }
 
-.gridTransation{
-    width: 50%;
-    
+.gridTransation {
+  width: 50%;
 }
 
 .fileUploadTitle {
-    display: flex;
-    margin: 0px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #262b40
+  display: flex;
+  margin: 0px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #262b40;
 }
 
 .transactionFileUpload {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-style: dashed;
-    border: 2px dashed #93a5be;
-    height: 300px;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #66799e;
-    background-color: #fff;
-    background-clip: padding-box;
-    margin: 30px;
-    justify-content: center;
-    border-radius: 5px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-style: dashed;
+  border: 2px dashed #93a5be;
+  height: 300px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #66799e;
+  background-color: #fff;
+  background-clip: padding-box;
+  margin: 30px;
+  justify-content: center;
+  border-radius: 5px;
 }
 
-.transactionFileUpload:hover{
-    background-color: #f5f8fb;
-    cursor: pointer;
+.transactionFileUpload:hover {
+  background-color: #f5f8fb;
+  cursor: pointer;
 }
 
 .transactionForm {
-    display: block;
-    height: 300px;
-    margin: 15px;
+  display: block;
+  height: 300px;
+  margin: 15px;
 }
 
 .inputFormTrans {
-    width: 100%;
-    border-radius: 5px;
-    height: 40px;
-    display: block;
-    margin-bottom: 20px;
-    margin-top: 10px;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+  width: 100%;
+  border-radius: 5px;
+  height: 40px;
+  display: block;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
 }
 .inputFormTrans:active {
-    border-color: red;
+  border-color: red;
 }
 
 .categoryList {
-    width: 100%;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    margin-top: 10px;
-    line-height: 1.5;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  line-height: 1.5;
 }
 
 .categoryListNumber {
-    width: 100%;
-    
+  width: 100%;
 }
 
-
-.p-dropdown	{
-    display: flex !important;
-    margin: 0 !important;
+.p-dropdown {
+  display: flex !important;
+  margin: 0 !important;
 }
 
-.titleTransactionFormFirstodList{
-    display: flex;
-    padding-bottom: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #4a5073;
-    display: block;
+.titleTransactionFormFirstodList {
+  display: flex;
+  padding-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a5073;
+  display: block;
 }
 
-.titleTransactionForm{
-    display: flex;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #4a5073;
-    display: block;
+.titleTransactionForm {
+  display: flex;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a5073;
+  display: block;
 }
 
 .transactionActionButtons {
-    justify-content: space-between;
-    display: flex;
-    width: 100%;
-    margin-top: 15px
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+  margin-top: 15px;
 }
 
 .transactionButton {
-    width: 100px;  
+  width: 100px;
 }
 
 .p-button {
-    background-color: #262b40 !important;
-    border-color: #262b40 !important;
+  background-color: #262b40 !important;
+  border-color: #262b40 !important;
 }
 
 .p-button:hover {
-    background-color: #2e3650 !important;
+  background-color: #2e3650 !important;
 }
 
 .tableTransactionSection {
-    margin: 10px;
-    border: .0625rem solid rgba(46,54,80,.125);
-    background: #ffffff;
-    padding: 2rem;
-    -webkit-box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
-    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
-    border-radius: 5px;
-    margin-bottom: 2rem;
+  margin: 10px;
+  border: 0.0625rem solid rgba(46, 54, 80, 0.125);
+  background: #ffffff;
+  padding: 2rem;
+  -webkit-box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  border-radius: 5px;
+  margin-bottom: 2rem;
 }

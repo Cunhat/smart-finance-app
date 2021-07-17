@@ -1,78 +1,78 @@
 .sideBarContainer {
-   background-color: #262b40;
-   width: 250px;
-   height: 100%;
-   display: flex;
-   position: fixed;
-   top: 0;
-   transition: 350ms;
-   left: 0;
+  background-color: #262b40;
+  width: 250px;
+  height: 100%;
+  display: flex;
+  position: fixed;
+  top: 0;
+  transition: 350ms;
+  left: 0;
 }
 
 .sideBarContainer.hide {
-   width: 90px;
-   transition: 350ms;
+  width: 90px;
+  transition: 350ms;
 }
 
 .icon {
-   margin-left: 550px;
+  margin-left: 550px;
 }
 
 .sideBarItemsContainer {
-   margin: 15px 15px 15px 15px;
-   position: relative;
-   width: 100%;
+  margin: 15px 15px 15px 15px;
+  position: relative;
+  width: 100%;
 }
 
 .sideBarItemsContainer.hide {
-   margin: 15px 10px 15px 15px;
-   position: relative;
-   width: 63px;
+  margin: 15px 10px 15px 15px;
+  position: relative;
+  width: 63px;
 }
 
 .sideBarItem {
-   margin: 10px;
-   height: 45px;
-   align-items: center;
-   text-align: center;
-   display: flex;
-   border-radius: 0.5rem;
-   background-color: #262b40;
-   padding-left: 10px;
-   text-decoration: none;
+  margin: 10px;
+  height: 45px;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: #262b40;
+  padding-left: 10px;
+  text-decoration: none;
 }
 
 .sideBarItem.hide {
-   height: 45px;
-   align-items: center;
-   text-align: center;
-   display: flex;
-   border-radius: 0.5rem;
-   background-color: #262b40;
+  height: 45px;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: #262b40;
 }
 
 .sideBarItem:hover {
-   border: 0.0625rem solid #4c5680;
-   background-color: #2e3650;
-   cursor: pointer;
+  border: 0.0625rem solid #4c5680;
+  background-color: #2e3650;
+  cursor: pointer;
 }
 
 .sideBarItemIcon {
-   font-size: 18px;
-   color: #fff;
+  font-size: 18px;
+  color: #fff;
 }
 
 .sideBarItemLabel {
-   font-size: 18;
-   color: #fff;
-   padding-left: 15px;
+  font-size: 18;
+  color: #fff;
+  padding-left: 15px;
 }
 
 .sideBarItemLabel.hide {
-   visibility: hidden;
+  visibility: hidden;
 }
 
 .selectedItem {
-   border: 0.0625rem solid #4c5680;
-   background-color: #2e3650;
+  border: 0.0625rem solid #4c5680;
+  background-color: #2e3650;
 }

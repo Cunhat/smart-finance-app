@@ -1,35 +1,36 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
 import axios from 'axios';
-import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
-import {Dropdown} from 'primereact/dropdown';
-import {DEV_ENDPOINT} from '../../Configs';
-import {NotificationManager} from 'react-notifications';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
+import { NotificationManager } from 'react-notifications';
+import PropTypes from 'prop-types';
+import { DEV_ENDPOINT } from '../../Configs';
 
-function CreateSubCategoryWidget({categories}) {
+function CreateSubCategoryWidget({ categories }) {
   const [newSubCategory, setNewSubCategory] = useState('');
   const [canEdit, setCanEdit] = useState(false);
   const [category, setCategory] = useState('');
   const [listOfCategories, setLisOfCategories] = useState([]);
+
+  function createCategories() {
+    const arr = [];
+    categories.forEach((elem) => {
+      const obj = {
+        label: elem.label,
+        value: elem.id
+      };
+      arr.push(obj);
+    });
+    setLisOfCategories(arr);
+  }
 
   useEffect(() => {
     if (categories?.length > 0) {
       createCategories();
     }
   }, [categories]);
-
-  function createCategories() {
-    const arr = [];
-    categories.map((category) => {
-      const obj = {
-        label: category.label,
-        value: category.id,
-      };
-      arr.push(obj);
-    });
-    setLisOfCategories(arr);
-  }
 
   function newCategoryHandler(event) {
     setNewSubCategory(event.target.value);
@@ -50,19 +51,23 @@ function CreateSubCategoryWidget({categories}) {
 
   function saveSubCategory() {
     const data = {
-      name: newSubCategory,
+      name: newSubCategory
     };
 
     axios
-        .post(DEV_ENDPOINT + 'subCategories/insertSubCategories/' + category, data)
-        .then((response) => {
-          if (response.status === 200) {
-            NotificationManager.success('Sub-Category successfully created', 'Success!');
-          }
-        })
-        .catch(() => {
-          NotificationManager.error('Error creatinbg Sub-Category', 'Ooops an error has occurred !', 5000);
-        });
+      .post(`${DEV_ENDPOINT}subCategories/insertSubCategories/${category}`, data)
+      .then((response) => {
+        if (response.status === 200) {
+          NotificationManager.success('Sub-Category successfully created', 'Success!');
+        }
+      })
+      .catch(() => {
+        NotificationManager.error(
+          'Error creatinbg Sub-Category',
+          'Ooops an error has occurred !',
+          5000
+        );
+      });
     clearAll();
   }
 
@@ -108,5 +113,9 @@ function CreateSubCategoryWidget({categories}) {
     </div>
   );
 }
+
+CreateSubCategoryWidget.propTypes = {
+  categories: PropTypes.string
+};
 
 export default CreateSubCategoryWidget;

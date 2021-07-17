@@ -37,14 +37,14 @@
   }
 }
 
-.mainContainer{
+.mainContainer {
   margin-left: 250px;
   transition: 300ms;
   background-color: #f5f8fb;
   height: 100vh;
 }
 
-.mainContainerHidedSideBar{
+.mainContainerHidedSideBar {
   margin-left: 90px;
   transition: 300ms;
   background-color: #f5f8fb;
