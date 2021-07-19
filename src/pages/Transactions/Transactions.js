@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './styles.css';
 import { useDropzone } from 'react-dropzone';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputNumber } from 'primereact/inputnumber';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Calendar } from 'primereact/calendar';
+import NewTransactionWidget from '../../components/NewTransactionWidget';
 
 const categorySelectItems = [
   { label: 'New York', value: 'NY' },
@@ -44,17 +44,17 @@ function Transactions() {
     </li>
   )); */
 
-  function categoryHandler(event) {
+  const categoryHandler = useCallback((event) => {
     setCategory(categorySelectItems.find((element) => element.value === event.value));
-  }
+  }, []);
 
-  function subCategoryHandler(event) {
+  const subCategoryHandler = useCallback((event) => {
     setSubCategory(subCategorySelectItems.find((element) => element.value === event.value));
-  }
+  }, []);
 
-  function descriptionHandler(event) {
+  const descriptionHandler = useCallback((event) => {
     setDescription(event.target.value);
-  }
+  }, []);
 
   function valueHandler(event) {
     setValue(event.target.value);
@@ -190,75 +190,25 @@ function Transactions() {
 
   return (
     <div className="mainPagesContainer">
-      <span className="pageTitle">Transactions</span>
-      <div className="createTransactionSection">
-        <div className="gridTransation">
-          <span className="fileUploadTitle">File Upload</span>
-          <div {...getRootProps({ className: 'transactionFileUpload' })}>
-            <input {...getInputProps()} />
-            <p style={{ padding: '20px' }}>
-              Drag and drop some files here, or click to select files
-            </p>
-          </div>
-        </div>
-        <div className="gridTransation">
-          <span className="fileUploadTitle">Single Upload</span>
-          <div className="transactionForm">
-            <span className="titleTransactionFormFirstodList">Description</span>
-            <InputText
-              value={description}
-              type="text"
-              className="inputFormTrans"
-              placeholder="Description"
-              onChange={descriptionHandler}></InputText>
-            <span className="titleTransactionForm">Value</span>
-            <InputNumber
-              value={value}
-              onValueChange={valueHandler}
-              mode="currency"
-              currency="EUR"
-              locale="de-DE"
-              minFractionDigits={2}
-              className="categoryListNumber"
-            />
-            <span className="titleTransactionForm">Date</span>
-            <Calendar
-              id="basic"
-              className="categoryListNumber"
-              value={date}
-              onChange={(e) => setDate(e.value)}
-            />
-            <span className="titleTransactionForm">Category</span>
-            <Dropdown
-              value={category?.value ? category.value : ''}
-              className="categoryList"
-              options={categorySelectItems}
-              onChange={(props) => categoryHandler(props)}
-              placeholder="Select a Category"
-              scrollHeight="300px"
-            />
-            <span className="titleTransactionForm">Sub-Category</span>
-            <Dropdown
-              value={subCategory?.value ? subCategory.value : ''}
-              className="categoryList"
-              options={subCategorySelectItems}
-              optionLabel="label"
-              onChange={(props) => subCategoryHandler(props)}
-              placeholder="Select a SubCategory"
-              scrollHeight="300px"
-            />
-            <div className="transactionActionButtons">
-              <Button className="transactionButton" label="Clear" onClick={clearAll} />
-              <Button
-                className="transactionButton"
-                label="Save"
-                onClick={saveTransaction}
-                disabled={checkIfCanSave()}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <NewTransactionWidget
+        getRootProps={getRootProps}
+        getInputProps={getInputProps}
+        description={description}
+        descriptionHandler={descriptionHandler}
+        value={value}
+        valueHandler={valueHandler}
+        date={date}
+        setDate={setDate}
+        category={category}
+        categorySelectItems={categorySelectItems}
+        categoryHandler={categoryHandler}
+        subCategory={subCategory}
+        subCategorySelectItems={subCategorySelectItems}
+        subCategoryHandler={subCategoryHandler}
+        clearAll={clearAll}
+        saveTransaction={saveTransaction}
+        checkIfCanSave={checkIfCanSave}
+      />
       {data.length > 0 && (
         <div className="tableTransactionSection">
           <DataTable
