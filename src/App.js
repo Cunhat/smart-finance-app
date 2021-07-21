@@ -11,6 +11,7 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'react-notifications/lib/notifications.css';
+import { CategoriesInfoContextProvider } from './contexts/CategoriesInfoContext';
 
 function App() {
   const [hideSideBar, setHideSidebar] = useState(true);
@@ -21,16 +22,18 @@ function App() {
 
   return (
     <Router>
-      <Sidebar hideSideBar={hideSideBar}></Sidebar>
-      <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
-        <TopBar showHideSideBar={hideBarHandler} />
-        <Switch>
-          <Route path="/dashboard" exact component={Dashboard} />
-          <Route path="/transactions" component={Transactions} />
-          <Route path="/settings" component={Settings} />
-        </Switch>
-      </main>
-      <NotificationContainer />
+      <CategoriesInfoContextProvider>
+        <Sidebar hideSideBar={hideSideBar}></Sidebar>
+        <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
+          <TopBar showHideSideBar={hideBarHandler} />
+          <Switch>
+            <Route path="/dashboard" exact component={Dashboard} />
+            <Route path="/transactions" component={Transactions} />
+            <Route path="/settings" component={Settings} />
+          </Switch>
+        </main>
+        <NotificationContainer />
+      </CategoriesInfoContextProvider>
     </Router>
   );
 }

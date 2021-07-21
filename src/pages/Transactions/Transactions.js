@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+/* eslint-disable no-debugger */
+import React, { useState, useContext } from 'react';
 import './styles.css';
 import { useDropzone } from 'react-dropzone';
 import { InputText } from 'primereact/inputtext';
@@ -9,23 +10,9 @@ import { InputNumber } from 'primereact/inputnumber';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Calendar } from 'primereact/calendar';
+import { Button } from 'primereact/button';
 import NewTransactionWidget from '../../components/NewTransactionWidget';
-
-const categorySelectItems = [
-  { label: 'New York', value: 'NY' },
-  { label: 'Rome', value: 'RM' },
-  { label: 'London', value: 'LDN' },
-  { label: 'Istanbul', value: 'IST' },
-  { label: 'Paris', value: 'PRS' }
-];
-
-const subCategorySelectItems = [
-  { label: 'New York', value: 'NY' },
-  { label: 'Rome', value: 'RM' },
-  { label: 'London', value: 'LDN' },
-  { label: 'Istanbul', value: 'IST' },
-  { label: 'Paris', value: 'PRS' }
-];
+import { CategoriesInfoContext } from '../../contexts/CategoriesInfoContext';
 
 const originalRows = {};
 
@@ -37,6 +24,7 @@ function Transactions() {
   const [value, setValue] = useState(0);
   const [data, setData] = useState([]);
   const [date, setDate] = useState(null);
+  const categoriesContext = useContext(CategoriesInfoContext);
 
   /* const files = acceptedFiles.map((file) => (
     <li key={file.path}>
@@ -44,17 +32,21 @@ function Transactions() {
     </li>
   )); */
 
-  const categoryHandler = useCallback((event) => {
-    setCategory(categorySelectItems.find((element) => element.value === event.value));
-  }, []);
+  function categoryHandler(event) {
+    setCategory(
+      categoriesContext.categorySelectItems.find((element) => element.value === event.value)
+    );
+  }
 
-  const subCategoryHandler = useCallback((event) => {
-    setSubCategory(subCategorySelectItems.find((element) => element.value === event.value));
-  }, []);
+  function subCategoryHandler(event) {
+    setSubCategory(
+      categoriesContext.subCategorySelectItems.find((element) => element.value === event.value)
+    );
+  }
 
-  const descriptionHandler = useCallback((event) => {
+  function descriptionHandler(event) {
     setDescription(event.target.value);
-  }, []);
+  }
 
   function valueHandler(event) {
     setValue(event.target.value);
@@ -95,7 +87,7 @@ function Transactions() {
   const onEditorValueChange = (values, param, field) => {
     let info = param;
     if (field.field === 'category') {
-      info = categorySelectItems.find((element) => element.value === value).label;
+      info = categoriesContext.categorySelectItems.find((element) => element.value === value).label;
     } else if (field.field === 'date') {
       info = info.toLocaleDateString('pt-PT');
     }
@@ -146,7 +138,7 @@ function Transactions() {
       <Dropdown
         value={values[type.rowIndex].category}
         className="categoryList"
-        options={categorySelectItems}
+        options={categoriesContext.categorySelectItems}
         onChange={(event) => onEditorValueChange(values, event.value, type)}
         placeholder="Select a Category"
         scrollHeight="300px"
@@ -159,7 +151,7 @@ function Transactions() {
       <Dropdown
         value={values[type.rowIndex].subCategory}
         className="categoryList"
-        options={subCategorySelectItems}
+        options={categoriesContext.subCategorySelectItems}
         onChange={(event) => onEditorValueChange(values, event.value, type)}
         placeholder="Select a SubCategory"
         scrollHeight="300px"
@@ -188,6 +180,8 @@ function Transactions() {
     );
   }
 
+  function submitTransactions() {}
+
   return (
     <div className="mainPagesContainer">
       <NewTransactionWidget
@@ -200,10 +194,10 @@ function Transactions() {
         date={date}
         setDate={setDate}
         category={category}
-        categorySelectItems={categorySelectItems}
+        categorySelectItems={categoriesContext.categorySelectItems}
         categoryHandler={categoryHandler}
         subCategory={subCategory}
-        subCategorySelectItems={subCategorySelectItems}
+        subCategorySelectItems={categoriesContext.subCategorySelectItems}
         subCategoryHandler={subCategoryHandler}
         clearAll={clearAll}
         saveTransaction={saveTransaction}
@@ -211,6 +205,13 @@ function Transactions() {
       />
       {data.length > 0 && (
         <div className="tableTransactionSection">
+          <div className="submitTrasactionActionCOntainer">
+            <Button
+              className="submitTransaction"
+              label={'Submit Transactions'}
+              onClick={submitTransactions}
+            />
+          </div>
           <DataTable
             value={data}
             editMode="row"

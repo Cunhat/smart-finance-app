@@ -146,3 +146,11 @@
   border-radius: 5px;
   margin-bottom: 2rem;
 }
+
+.submitTrasactionActionCOntainer {
+  margin-bottom: 20px;
+}
+
+.submitTransaction {
+  width: 200px;
+}
