@@ -6,19 +6,19 @@ export const CategoriesInfoContext = createContext();
 
 export function CategoriesInfoContextProvider({ children }) {
   const [categorySelectItems, setCategorySelectItems] = useState([
-    { label: 'New York', value: 'NY' },
-    { label: 'Rome', value: 'RM' },
-    { label: 'London', value: 'LDN' },
-    { label: 'Istanbul', value: 'IST' },
-    { label: 'Paris', value: 'PRS' }
+    { label: 'New York', value: 'New York' },
+    { label: 'Rome', value: 'Rome' },
+    { label: 'London', value: 'London' },
+    { label: 'Istanbul', value: 'Istanbul' },
+    { label: 'Paris', value: 'Paris' }
   ]);
 
   const [subCategorySelectItems, setSubCategorySelectItems] = useState([
-    { label: 'New York', value: 'NY' },
-    { label: 'Rome', value: 'RM' },
-    { label: 'London', value: 'LDN' },
-    { label: 'Istanbul', value: 'IST' },
-    { label: 'Paris', value: 'PRS' }
+    { label: 'New York', value: 'New York' },
+    { label: 'Rome', value: 'Rome' },
+    { label: 'London', value: 'London' },
+    { label: 'Istanbul', value: 'Istanbul' },
+    { label: 'Paris', value: 'Paris' }
   ]);
 
   const value = { categorySelectItems, subCategorySelectItems };

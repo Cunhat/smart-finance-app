@@ -64,7 +64,8 @@ function Transactions() {
     const transaction = {
       description,
       value,
-      date: date.toLocaleDateString('pt-PT'),
+      date: date.getTime(),
+      stringDate: date.toLocaleDateString('pt-PT'),
       category: category.label,
       subCategory: subCategory.label
     };
@@ -86,15 +87,17 @@ function Transactions() {
 
   const onEditorValueChange = (values, param, field) => {
     let info = param;
-    if (field.field === 'category') {
-      info = categoriesContext.categorySelectItems.find((element) => element.value === value).label;
-    } else if (field.field === 'date') {
+    if (field.field === 'stringDate') {
       info = info.toLocaleDateString('pt-PT');
     }
 
     const updatedData = [...values];
     updatedData[field.rowIndex][field.field] = info;
+    if (field.field === 'stringDate') {
+      updatedData[field.rowIndex].date = param.getTime();
+    }
     setData(updatedData);
+    console.log(updatedData);
   };
 
   const inputTextEditor = (values, newValue, field) => (
@@ -235,7 +238,10 @@ function Transactions() {
               header="Value"
               body={priceBodyTemplate}
               editor={(props) => valueEditor(data, props)}></Column>
-            <Column field="date" header="Date" editor={(props) => dateEditor(data, props)}></Column>
+            <Column
+              field="stringDate"
+              header="Date"
+              editor={(props) => dateEditor(data, props)}></Column>
             <Column
               rowEditor
               headerStyle={{ width: '7rem' }}
