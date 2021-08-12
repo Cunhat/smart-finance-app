@@ -1,6 +1,7 @@
 /* eslint-disable no-debugger */
 import React, { useState, useContext } from 'react';
 import './styles.css';
+import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
@@ -11,8 +12,10 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
+import { NotificationManager } from 'react-notifications';
 import NewTransactionWidget from '../../components/NewTransactionWidget';
 import { CategoriesInfoContext } from '../../contexts/CategoriesInfoContext';
+import { DEV_ENDPOINT } from '../../Configs';
 
 const originalRows = {};
 
@@ -39,9 +42,10 @@ function Transactions() {
   }
 
   function subCategoryHandler(event) {
-    setSubCategory(
-      categoriesContext.subCategorySelectItems.find((element) => element.value === event.value)
-    );
+    if (category) {
+      const subCategoryValue = category.items.find((elem) => elem.value === event.value);
+      setSubCategory(subCategoryValue);
+    }
   }
 
   function descriptionHandler(event) {
@@ -61,13 +65,17 @@ function Transactions() {
   }
 
   function saveTransaction() {
+    debugger;
     const transaction = {
       description,
       value,
       date: date.getTime(),
       stringDate: date.toLocaleDateString('pt-PT'),
       category: category.label,
-      subCategory: subCategory.label
+      subCategory: subCategory.label,
+      userId: '1',
+      categoryObj: category,
+      subCategoryObj: subCategory
     };
     setData([...data, transaction]);
     clearAll();
@@ -97,7 +105,6 @@ function Transactions() {
       updatedData[field.rowIndex].date = param.getTime();
     }
     setData(updatedData);
-    console.log(updatedData);
   };
 
   const inputTextEditor = (values, newValue, field) => (
@@ -183,8 +190,46 @@ function Transactions() {
     );
   }
 
-  function submitTransactions() {}
+  function createFinalObj() {
+    debugger;
+    const array = [];
+    data.forEach((elem) => {
+      const expense = {
+        userId: elem.userId,
+        categoryId: elem.categoryObj.id,
+        subCategoryId: elem.subCategoryObj.id,
+        date: elem.date,
+        value: elem.value,
+        description: elem.description
+      };
+      array.push(expense);
+    });
+    return array;
+  }
 
+  function submitTransactions() {
+    if (data.length > 0) {
+      axios
+        .post(`${DEV_ENDPOINT}expense/insertMultipleExpense`, createFinalObj())
+        .then((response) => {
+          if (response.status === 200 && response?.data?.length > 0) {
+            setData([]);
+            NotificationManager.success(
+              'Success creating new expenses!',
+              'The new expenses were successfully created!',
+              5000
+            );
+          }
+        })
+        .catch(() => {
+          NotificationManager.error(
+            'Error loadig Categories and SubCategories',
+            'Ooops an error has occurred !',
+            5000
+          );
+        });
+    }
+  }
   return (
     <div className="mainPagesContainer">
       <NewTransactionWidget
@@ -200,7 +245,7 @@ function Transactions() {
         categorySelectItems={categoriesContext.categorySelectItems}
         categoryHandler={categoryHandler}
         subCategory={subCategory}
-        subCategorySelectItems={categoriesContext.subCategorySelectItems}
+        subCategorySelectItems={category !== null ? category.items : ''}
         subCategoryHandler={subCategoryHandler}
         clearAll={clearAll}
         saveTransaction={saveTransaction}

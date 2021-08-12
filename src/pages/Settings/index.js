@@ -1,64 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { NotificationManager } from 'react-notifications';
-import axios from 'axios';
+/* eslint-disable no-debugger */
+import React, { useContext } from 'react';
 import PersonalInfoWidget from '../../components/PersonalInfoWidget';
 import './styles.css';
 import CreateCategoryWidget from '../../components/CreateCategoryWidget';
 import CreateSubCategoryWidget from '../../components/CreateSubCategoryWidget';
 import ListCategoriesWidget from '../../components/ListCategoriesWidget';
-import { DEV_ENDPOINT } from '../../Configs';
+import { CategoriesInfoContext } from '../../contexts/CategoriesInfoContext';
 
 function Settings() {
-  const [categories, setCategories] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
-  function createCategoriesObj(data) {
-    if (data?.length > 0) {
-      const categoriesArray = [];
-      data.forEach((elem) => {
-        let obj = {
-          id: elem.id,
-          label: elem.name,
-          icon: 'pi pi-fw pi-file'
-        };
-
-        const items = [];
-        elem.subCategories.forEach((item) => {
-          const subcategories = {
-            label: item.name,
-            icon: 'pi pi-fw pi-trash'
-          };
-          items.push(subcategories);
-        });
-        obj = { ...obj, items };
-        categoriesArray.push(obj);
-      });
-      setCategories(categoriesArray);
-    } else {
-      setMessage("You don't have any categories!!");
-    }
-  }
-
-  useEffect(() => {
-    // setLoading(true);
-    axios
-      .get(`${DEV_ENDPOINT}categories/getAll`)
-      .then((response) => {
-        if (response.status === 200) {
-          createCategoriesObj(response.data);
-          NotificationManager.success('Categories successfully loaded', 'Success!');
-        }
-      })
-      .catch(() => {
-        NotificationManager.error(
-          'Error loading Categories',
-          'Ooops an error has occurred !',
-          5000
-        );
-        setMessage('Error loading categories!');
-      });
-  }, []);
+  const categoriesContext = useContext(CategoriesInfoContext);
 
   return (
     <div className="mainPagesContainer">
@@ -70,11 +20,14 @@ function Settings() {
             <CreateCategoryWidget />
           </div>
           <div className="categoriesWidgetsItem">
-            <CreateSubCategoryWidget categories={categories} />
+            <CreateSubCategoryWidget categories={categoriesContext.categorySelectItems} />
           </div>
         </div>
         <div className="categoriesWidgetsContainerGrid">
-          <ListCategoriesWidget categories={categories} message={message} />
+          <ListCategoriesWidget
+            categories={categoriesContext.categorySelectItems}
+            message={'Não existem dados a apresentar!'}
+          />
         </div>
       </div>
     </div>
