@@ -12,6 +12,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'react-notifications/lib/notifications.css';
 import { CategoriesInfoContextProvider } from './contexts/CategoriesInfoContext';
+import { ExpensesContextProvider } from './contexts/ExpensesContext';
 
 function App() {
   const [hideSideBar, setHideSidebar] = useState(true);
@@ -23,16 +24,18 @@ function App() {
   return (
     <Router>
       <CategoriesInfoContextProvider>
-        <Sidebar hideSideBar={hideSideBar}></Sidebar>
-        <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
-          <TopBar showHideSideBar={hideBarHandler} />
-          <Switch>
-            <Route path="/dashboard" exact component={Dashboard} />
-            <Route path="/transactions" component={Transactions} />
-            <Route path="/settings" component={Settings} />
-          </Switch>
-        </main>
-        <NotificationContainer />
+        <ExpensesContextProvider>
+          <Sidebar hideSideBar={hideSideBar}></Sidebar>
+          <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
+            <TopBar showHideSideBar={hideBarHandler} />
+            <Switch>
+              <Route path="/dashboard" exact component={Dashboard} />
+              <Route path="/transactions" component={Transactions} />
+              <Route path="/settings" component={Settings} />
+            </Switch>
+          </main>
+          <NotificationContainer />
+        </ExpensesContextProvider>
       </CategoriesInfoContextProvider>
     </Router>
   );
