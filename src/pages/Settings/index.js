@@ -12,7 +12,7 @@ function Settings() {
 
   return (
     <div className="mainPagesContainer">
-      <span className="pageTitle">Settings</span>
+      <h1>Settings</h1>
       <PersonalInfoWidget />
       <div className="categoriesWidgetsContainer">
         <div className="categoriesWidgetsContainerGrid">
@@ -26,7 +26,7 @@ function Settings() {
         <div className="categoriesWidgetsContainerGrid">
           <ListCategoriesWidget
             categories={categoriesContext.categorySelectItems}
-            message={'Não existem dados a apresentar!'}
+            message={'No data to be shown!'}
           />
         </div>
       </div>

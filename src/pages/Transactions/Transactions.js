@@ -16,6 +16,7 @@ import { NotificationManager } from 'react-notifications';
 import NewTransactionWidget from '../../components/NewTransactionWidget';
 import { CategoriesInfoContext } from '../../contexts/CategoriesInfoContext';
 import { DEV_ENDPOINT } from '../../Configs';
+import PageContainer from '../../components/PageContainer';
 
 const originalRows = {};
 
@@ -231,7 +232,7 @@ function Transactions() {
     }
   }
   return (
-    <div className="mainPagesContainer">
+    <PageContainer>
       <NewTransactionWidget
         getRootProps={getRootProps}
         getInputProps={getInputProps}
@@ -299,7 +300,7 @@ function Transactions() {
           </DataTable>
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }
 

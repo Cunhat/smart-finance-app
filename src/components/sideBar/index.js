@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import { faChartPie, faCog, faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faCog, faHandHoldingUsd, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -36,7 +36,12 @@ function Sidebar({ hideSideBar }) {
             showSideBar={hideSideBar}
             icon={faChartPie}></SideBarIdem>
           <SideBarIdem
-            title={'Transactions'}
+            title={'Transactions History'}
+            path={'/transactionsHistory'}
+            showSideBar={hideSideBar}
+            icon={faHistory}></SideBarIdem>
+          <SideBarIdem
+            title={'New Transactions'}
             path={'/transactions'}
             showSideBar={hideSideBar}
             icon={faHandHoldingUsd}></SideBarIdem>

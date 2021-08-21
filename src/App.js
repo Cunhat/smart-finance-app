@@ -13,6 +13,7 @@ import 'primeicons/primeicons.css';
 import 'react-notifications/lib/notifications.css';
 import { CategoriesInfoContextProvider } from './contexts/CategoriesInfoContext';
 import { ExpensesContextProvider } from './contexts/ExpensesContext';
+import History from './pages/History';
 
 function App() {
   const [hideSideBar, setHideSidebar] = useState(true);
@@ -30,6 +31,7 @@ function App() {
             <TopBar showHideSideBar={hideBarHandler} />
             <Switch>
               <Route path="/dashboard" exact component={Dashboard} />
+              <Route path="/transactionsHistory" component={History} />
               <Route path="/transactions" component={Transactions} />
               <Route path="/settings" component={Settings} />
             </Switch>
