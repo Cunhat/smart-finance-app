@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
 import Sidebar from './components/sideBar';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Settings from './pages/Settings/index';
 import Transactions from './pages/Transactions/Transactions';
 import TopBar from './components/topBar';
