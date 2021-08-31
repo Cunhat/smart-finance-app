@@ -6,3 +6,33 @@
 .pageTitle {
   font-size: 24px;
 }
+
+.yearToggle {
+  padding: 10px;
+  width: 65px;
+  display: flex;
+  justify-content: center;
+  border-radius: 9999px;
+  cursor: pointer;
+  margin: 0 5px 0 5px;
+}
+
+.yearToggle:hover {
+  background-color: rgb(38, 43, 64, 0.1);
+}
+
+.selected {
+  background-color: #262b40;
+  color: #fff;
+}
+
+.selected:hover {
+  background-color: rgb(38, 43, 64, 0.7);
+}
+
+.containerRadios {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 10px;
+}

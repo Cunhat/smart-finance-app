@@ -3,6 +3,7 @@ import Chart from 'react-apexcharts';
 
 import PageContainer from '../../components/PageContainer';
 import WidgetContainer from '../../components/WidgetContainer';
+import './styles.css';
 
 function Dashboard() {
   const labels = [
@@ -59,6 +60,11 @@ function Dashboard() {
   return (
     <PageContainer>
       <h1>Dashboard</h1>
+      <div className="containerRadios">
+        <div className="yearToggle selected">2019</div>
+        <div className="yearToggle">2020</div>
+        <div className="yearToggle">2021</div>
+      </div>
       <WidgetContainer>
         <Chart series={series} options={options} height="350" />
       </WidgetContainer>
