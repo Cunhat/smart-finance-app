@@ -1,8 +1,12 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 
+import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
 import PageContainer from '../../components/PageContainer';
 import WidgetContainer from '../../components/WidgetContainer';
+import InfoPanel from '../../components/InfoPanel';
+import Info from '../../components/InfoPanel/Info';
+import Icon from '../../components/InfoPanel/Icon';
 import './styles.css';
 
 function Dashboard() {
@@ -68,6 +72,36 @@ function Dashboard() {
       <WidgetContainer>
         <Chart series={series} options={options} height="350" />
       </WidgetContainer>
+      <div>
+        <InfoPanel>
+          <Info label={'Income'} info={'1700k'} />
+          <Icon
+            icon={faHandHoldingUsd}
+            style={{
+              color: '#FFF',
+              border: 'solid 1px green',
+              backgroundColor: 'green',
+              padding: '15px',
+              borderRadius: '23px',
+              fontSize: '70px'
+            }}
+          />
+        </InfoPanel>
+        <InfoPanel>
+          <Info label={'Outcome'} info={'200K'} />
+          <Icon
+            icon={faHandHoldingUsd}
+            style={{
+              color: '#FFF',
+              border: 'solid 1px red',
+              backgroundColor: 'red',
+              padding: '15px',
+              borderRadius: '23px',
+              fontSize: '70px'
+            }}
+          />
+        </InfoPanel>
+      </div>
     </PageContainer>
   );
 }
