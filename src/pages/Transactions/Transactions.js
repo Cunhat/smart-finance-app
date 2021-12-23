@@ -29,6 +29,9 @@ function Transactions() {
   const [data, setData] = useState([]);
   const [date, setDate] = useState(null);
   const categoriesContext = useContext(CategoriesInfoContext);
+  console.log(categoriesContext);
+  const [categoriesObjt, setCategoriesObjt] = useState([]);
+  const [subCategoriesObjt, setSubCategoriesObjt] = useState([]);
 
   /* const files = acceptedFiles.map((file) => (
     <li key={file.path}>
@@ -36,17 +39,33 @@ function Transactions() {
     </li>
   )); */
 
+  React.useEffect(() => {
+    if (categoriesContext.categorySelectItems.length > 0) {
+      const aux = [];
+      categoriesContext.categorySelectItems.forEach((elem) =>
+        aux.push({ ...elem, value: elem.name, label: elem.name })
+      );
+      setCategoriesObjt(aux);
+    }
+  }, [categoriesContext]);
+
+  React.useEffect(() => {
+    if (categoriesContext.subCategorySelectItems.length > 0) {
+      const aux = [];
+      categoriesContext.subCategorySelectItems.forEach((elem) =>
+        aux.push({ ...elem, value: elem.name, label: elem.name })
+      );
+      setSubCategoriesObjt(aux);
+    }
+  }, [categoriesContext]);
+
   function categoryHandler(event) {
-    setCategory(
-      categoriesContext.categorySelectItems.find((element) => element.value === event.value)
-    );
+    setCategory(categoriesObjt.find((element) => element.name === event.value));
   }
 
   function subCategoryHandler(event) {
-    if (category) {
-      const subCategoryValue = category.items.find((elem) => elem.value === event.value);
-      setSubCategory(subCategoryValue);
-    }
+    const subCategoryValue = subCategoriesObjt.find((elem) => elem.name === event.value);
+    setSubCategory(subCategoryValue);
   }
 
   function descriptionHandler(event) {
@@ -149,7 +168,7 @@ function Transactions() {
       <Dropdown
         value={values[type.rowIndex].category}
         className="categoryList"
-        options={categoriesContext.categorySelectItems}
+        options={categoriesObjt}
         onChange={(event) => onEditorValueChange(values, event.value, type)}
         placeholder="Select a Category"
         scrollHeight="300px"
@@ -162,7 +181,7 @@ function Transactions() {
       <Dropdown
         value={values[type.rowIndex].subCategory}
         className="categoryList"
-        options={categoriesContext.subCategorySelectItems}
+        options={subCategoriesObjt}
         onChange={(event) => onEditorValueChange(values, event.value, type)}
         placeholder="Select a SubCategory"
         scrollHeight="300px"
@@ -243,10 +262,10 @@ function Transactions() {
         date={date}
         setDate={setDate}
         category={category}
-        categorySelectItems={categoriesContext.categorySelectItems}
+        categorySelectItems={categoriesObjt}
         categoryHandler={categoryHandler}
         subCategory={subCategory}
-        subCategorySelectItems={category !== null ? category.items : ''}
+        subCategorySelectItems={subCategoriesObjt}
         subCategoryHandler={subCategoryHandler}
         clearAll={clearAll}
         saveTransaction={saveTransaction}
