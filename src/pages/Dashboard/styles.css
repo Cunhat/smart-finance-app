@@ -36,3 +36,10 @@
   justify-content: flex-end;
   margin: 10px;
 }
+
+.infoWidgetsContainer {
+  margin: 10px 0px 10px 0px;
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr 3fr;
+  justify-self: center;
+}

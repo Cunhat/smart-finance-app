@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Sidebar from './components/sideBar';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Settings from './pages/Settings/index';
@@ -17,6 +18,7 @@ import History from './pages/History';
 
 function App() {
   const [hideSideBar, setHideSidebar] = useState(true);
+  const queryClient = new QueryClient();
 
   function hideBarHandler() {
     setHideSidebar(!hideSideBar);
@@ -24,21 +26,23 @@ function App() {
 
   return (
     <Router>
-      <CategoriesInfoContextProvider>
-        <ExpensesContextProvider>
-          <Sidebar hideSideBar={hideSideBar}></Sidebar>
-          <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
-            <TopBar showHideSideBar={hideBarHandler} />
-            <Switch>
-              <Route path="/dashboard" exact component={Dashboard} />
-              <Route path="/transactionsHistory" component={History} />
-              <Route path="/transactions" component={Transactions} />
-              <Route path="/settings" component={Settings} />
-            </Switch>
-          </main>
-          <NotificationContainer />
-        </ExpensesContextProvider>
-      </CategoriesInfoContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <CategoriesInfoContextProvider>
+          <ExpensesContextProvider>
+            <Sidebar hideSideBar={hideSideBar}></Sidebar>
+            <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
+              <TopBar showHideSideBar={hideBarHandler} />
+              <Switch>
+                <Route path="/dashboard" exact component={Dashboard} />
+                <Route path="/transactionsHistory" component={History} />
+                <Route path="/transactions" component={Transactions} />
+                <Route path="/settings" component={Settings} />
+              </Switch>
+            </main>
+            <NotificationContainer />
+          </ExpensesContextProvider>
+        </CategoriesInfoContextProvider>
+      </QueryClientProvider>
     </Router>
   );
 }

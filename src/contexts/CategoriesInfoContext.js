@@ -4,58 +4,38 @@
 import React, { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
 import { NotificationManager } from 'react-notifications';
+import { useQuery } from 'react-query';
+import { request, gql } from 'graphql-request';
 import { DEV_ENDPOINT } from '../Configs';
+import { GET_CATEGORIES_AND_SUBATEGORIES } from '../api/queries';
 
 export const CategoriesInfoContext = createContext();
+
+function getCategory() {
+  return useQuery('category', async () => {
+    const data = await request(DEV_ENDPOINT, GET_CATEGORIES_AND_SUBATEGORIES);
+    return data;
+  });
+}
 
 export function CategoriesInfoContextProvider({ children }) {
   const [categorySelectItems, setCategorySelectItems] = useState([]);
   const [subCategorySelectItems, setSubCategorySelectItems] = useState([]);
+  const { data, error } = getCategory();
 
   useEffect(() => {
-    function createCategoriesObj(data) {
-      if (data?.length > 0) {
-        const categoriesArray = [];
-        data.forEach((elem) => {
-          let obj = {
-            id: elem.id,
-            label: elem.name,
-            icon: 'pi pi-fw pi-file',
-            value: elem.name
-          };
-
-          const items = [];
-          elem.subCategories.forEach((item) => {
-            const subcategories = {
-              label: item.name,
-              icon: 'pi pi-fw pi-trash',
-              value: item.name,
-              id: item.id
-            };
-            items.push(subcategories);
-          });
-          obj = { ...obj, items };
-          categoriesArray.push(obj);
-        });
-        setCategorySelectItems(categoriesArray);
-      }
+    if (data !== undefined) {
+      setCategorySelectItems(data.category);
+      setSubCategorySelectItems(data.subCategory);
     }
-
-    axios
-      .get(`${DEV_ENDPOINT}categories/getAll`)
-      .then((response) => {
-        if (response.status === 200) {
-          createCategoriesObj(response.data);
-        }
-      })
-      .catch(() => {
-        NotificationManager.error(
-          'Error loadig Categories and SubCategories',
-          'Ooops an error has occurred !',
-          5000
-        );
-      });
-  }, []);
+    if (error) {
+      NotificationManager.error(
+        'Error loadig Categories and SubCategories',
+        'Ooops an error has occurred !',
+        5000
+      );
+    }
+  }, [data, error]);
 
   const value = { categorySelectItems, subCategorySelectItems };
 

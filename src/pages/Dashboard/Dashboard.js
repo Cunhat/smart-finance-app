@@ -72,7 +72,7 @@ function Dashboard() {
       <WidgetContainer>
         <Chart series={series} options={options} height="350" />
       </WidgetContainer>
-      <div>
+      <div className="infoWidgetsContainer">
         <InfoPanel>
           <Info label={'Income'} info={'1700k'} />
           <Icon
@@ -95,6 +95,34 @@ function Dashboard() {
               color: '#FFF',
               border: 'solid 1px red',
               backgroundColor: 'red',
+              padding: '15px',
+              borderRadius: '23px',
+              fontSize: '70px'
+            }}
+          />
+        </InfoPanel>
+        <InfoPanel>
+          <Info label={'Fixed Expenses'} info={'200K'} />
+          <Icon
+            icon={faHandHoldingUsd}
+            style={{
+              color: '#FFF',
+              border: 'solid 1px yellow',
+              backgroundColor: 'yellow',
+              padding: '15px',
+              borderRadius: '23px',
+              fontSize: '70px'
+            }}
+          />
+        </InfoPanel>
+        <InfoPanel>
+          <Info label={'Passive Income'} info={'200K'} />
+          <Icon
+            icon={faHandHoldingUsd}
+            style={{
+              color: '#FFF',
+              border: 'solid 1px yellow',
+              backgroundColor: 'yellow',
               padding: '15px',
               borderRadius: '23px',
               fontSize: '70px'

@@ -23,3 +23,8 @@
 .categoriesWidgetsItem {
   margin: 0 0 10px 0;
 }
+
+.listedInfoClass {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
