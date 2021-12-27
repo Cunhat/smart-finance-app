@@ -30,3 +30,27 @@ export const createSubCategory = (subCategoryName) => gql`
     }
   }
 `;
+
+export const createTransaction = (transaction) => gql`
+  mutation {
+    createTransaction(
+      transactionInput: {
+        name: "${transaction.name}"
+        value: ${transaction.value}
+        date: "${new Date(transaction.date)}"
+        category: "${transaction.category}"
+        subCategory: "${transaction.subCategory}"
+      }
+    ) {
+      name
+      _id
+      value
+      category {
+        name
+      }
+      subCategory {
+        name
+      }
+    }
+  }
+`;

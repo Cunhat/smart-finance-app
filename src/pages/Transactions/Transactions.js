@@ -1,7 +1,7 @@
 /* eslint-disable no-debugger */
 import React, { useState, useContext } from 'react';
 import './styles.css';
-import axios from 'axios';
+// import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
@@ -13,10 +13,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { NotificationManager } from 'react-notifications';
+import { useMutation } from 'react-query';
+import { request } from 'graphql-request';
 import NewTransactionWidget from '../../components/NewTransactionWidget';
 import { CategoriesInfoContext } from '../../contexts/CategoriesInfoContext';
 import { DEV_ENDPOINT } from '../../Configs';
 import PageContainer from '../../components/PageContainer';
+import { createTransaction } from '../../api/queries';
 
 const originalRows = {};
 
@@ -29,7 +32,6 @@ function Transactions() {
   const [data, setData] = useState([]);
   const [date, setDate] = useState(null);
   const categoriesContext = useContext(CategoriesInfoContext);
-  console.log(categoriesContext);
   const [categoriesObjt, setCategoriesObjt] = useState([]);
   const [subCategoriesObjt, setSubCategoriesObjt] = useState([]);
 
@@ -85,7 +87,6 @@ function Transactions() {
   }
 
   function saveTransaction() {
-    debugger;
     const transaction = {
       description,
       value,
@@ -211,43 +212,45 @@ function Transactions() {
   }
 
   function createFinalObj() {
-    debugger;
     const array = [];
     data.forEach((elem) => {
       const expense = {
-        userId: elem.userId,
-        categoryId: elem.categoryObj.id,
-        subCategoryId: elem.subCategoryObj.id,
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+        category: elem.categoryObj._id,
+        subCategory: elem.subCategoryObj._id,
         date: elem.date,
         value: elem.value,
-        description: elem.description
+        name: elem.description
       };
       array.push(expense);
     });
     return array;
   }
 
-  function submitTransactions() {
+  const mutation = useMutation(async (transaction) => {
+    const response = await request(DEV_ENDPOINT, createTransaction(transaction));
+    return response;
+  });
+
+  async function submitTransactions() {
     if (data.length > 0) {
-      axios
-        .post(`${DEV_ENDPOINT}expense/insertMultipleExpense`, createFinalObj())
-        .then((response) => {
-          if (response.status === 200 && response?.data?.length > 0) {
-            setData([]);
-            NotificationManager.success(
-              'Success creating new expenses!',
-              'The new expenses were successfully created!',
-              5000
-            );
-          }
-        })
-        .catch(() => {
-          NotificationManager.error(
-            'Error loadig Categories and SubCategories',
-            'Ooops an error has occurred !',
+      try {
+        const createdTransaction = await mutation.mutateAsync(createFinalObj()[0]);
+        if (createdTransaction?.createTransaction !== null) {
+          setData([]);
+          NotificationManager.success(
+            'Success creating new expenses!',
+            'The new expenses were successfully created!',
             5000
           );
-        });
+        }
+      } catch (error) {
+        NotificationManager.error(
+          'Error loadig Categories and SubCategories',
+          'Ooops an error has occurred !',
+          5000
+        );
+      }
     }
   }
   return (
