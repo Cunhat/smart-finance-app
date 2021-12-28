@@ -54,3 +54,21 @@ export const createTransaction = (transaction) => gql`
     }
   }
 `;
+export const GET_ALL_TRANSACTIONS = gql`
+  {
+    transaction {
+      name
+      date
+      value
+      _id
+      category {
+        name
+        _id
+      }
+      subCategory {
+        name
+        _id
+      }
+    }
+  }
+`;
