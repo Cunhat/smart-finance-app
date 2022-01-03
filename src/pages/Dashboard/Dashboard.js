@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
 
 import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
+import { Dropdown } from 'primereact/dropdown';
 import PageContainer from '../../components/PageContainer';
 import WidgetContainer from '../../components/WidgetContainer';
 import InfoPanel from '../../components/InfoPanel';
@@ -9,7 +10,23 @@ import Info from '../../components/InfoPanel/Info';
 import Icon from '../../components/InfoPanel/Icon';
 import './styles.css';
 
+const months = [
+  { name: 'January' },
+  { name: 'Febuary' },
+  { name: 'March' },
+  { name: 'April' },
+  { name: 'May' },
+  { name: 'June' },
+  { name: 'July' },
+  { name: 'August' },
+  { name: 'September' },
+  { name: 'October' },
+  { name: 'November' },
+  { name: 'December' }
+];
+
 function Dashboard() {
+  const [month, setMonth] = useState(months[new Date().getMonth()]);
   const labels = [
     'January',
     'Febuary',
@@ -60,15 +77,29 @@ function Dashboard() {
       type: 'area'
     }
   ];
+  /* eslint-disable no-debugger */
+
+  const onChange = (event) => {
+    debugger;
+    setMonth(event.value);
+  };
 
   return (
     <PageContainer>
       <h1>Dashboard</h1>
       <div className="containerRadios">
-        <div className="yearToggle selected">2019</div>
         <div className="yearToggle">2020</div>
         <div className="yearToggle">2021</div>
+        <div className="yearToggle selected">2022</div>
+        <Dropdown
+          value={month}
+          options={months}
+          onChange={onChange}
+          optionLabel="name"
+          placeholder="Select a month"
+        />
       </div>
+
       <WidgetContainer>
         <Chart series={series} options={options} height="350" />
       </WidgetContainer>

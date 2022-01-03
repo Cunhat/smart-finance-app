@@ -37,6 +37,10 @@
   margin: 10px;
 }
 
+.containerRadios .p-dropdown {
+  border-radius: 999px !important;
+}
+
 .infoWidgetsContainer {
   margin: 10px 0px 10px 0px;
   display: grid;
