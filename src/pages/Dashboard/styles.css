@@ -37,7 +37,14 @@
   margin: 10px;
 }
 
-.containerRadios .p-dropdown {
+.containerDropDown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.containerDropDown .p-dropdown {
   border-radius: 999px !important;
 }
 

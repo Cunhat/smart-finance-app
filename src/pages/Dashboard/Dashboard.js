@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
 
-import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
+// import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'primereact/dropdown';
 import PageContainer from '../../components/PageContainer';
 import WidgetContainer from '../../components/WidgetContainer';
-import InfoPanel from '../../components/InfoPanel';
-import Info from '../../components/InfoPanel/Info';
-import Icon from '../../components/InfoPanel/Icon';
+// import InfoPanel from '../../components/InfoPanel';
+// import Info from '../../components/InfoPanel/Info';
+// import Icon from '../../components/InfoPanel/Icon';
 import './styles.css';
 
 const months = [
@@ -84,6 +84,26 @@ function Dashboard() {
     setMonth(event.value);
   };
 
+  const seriesPie = [44, 55, 41, 17, 15];
+
+  const pieOptions = {
+    chart: {
+      type: 'donut'
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    ]
+  };
   return (
     <PageContainer>
       <h1>Dashboard</h1>
@@ -91,19 +111,34 @@ function Dashboard() {
         <div className="yearToggle">2020</div>
         <div className="yearToggle">2021</div>
         <div className="yearToggle selected">2022</div>
+      </div>
+      <WidgetContainer>
+        <Chart series={series} options={options} height="350" />
+      </WidgetContainer>
+      <div className="containerDropDown">
         <Dropdown
           value={month}
           options={months}
           onChange={onChange}
           optionLabel="name"
           placeholder="Select a month"
+          style={{ width: '240px' }}
         />
       </div>
+      <div className="categoriesWidgetsContainer">
+        <div className="categoriesWidgetsContainerGrid">
+          <WidgetContainer>
+            <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
+          </WidgetContainer>
+        </div>
+        <div className="categoriesWidgetsContainerGrid">
+          <WidgetContainer>
+            <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
+          </WidgetContainer>
+        </div>
+      </div>
 
-      <WidgetContainer>
-        <Chart series={series} options={options} height="350" />
-      </WidgetContainer>
-      <div className="infoWidgetsContainer">
+      {/* <div className="infoWidgetsContainer">
         <InfoPanel>
           <Info label={'Income'} info={'1700k'} />
           <Icon
@@ -160,7 +195,7 @@ function Dashboard() {
             }}
           />
         </InfoPanel>
-      </div>
+      </div> */}
     </PageContainer>
   );
 }
