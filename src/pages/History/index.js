@@ -15,15 +15,9 @@ import { request, gql } from 'graphql-request';
 import PageContainer from '../../components/PageContainer';
 // import { ExpensesContext } from '../../contexts/ExpensesContext';
 import style from './styles.css';
-import { DEV_ENDPOINT } from '../../Configs';
-import { GET_ALL_TRANSACTIONS } from '../../api/queries';
-
-function getTransactions() {
-  return useQuery('transactions', async () => {
-    const data = await request(DEV_ENDPOINT, GET_ALL_TRANSACTIONS);
-    return data;
-  });
-}
+// import { DEV_ENDPOINT } from '../../Configs';
+// import { GET_ALL_TRANSACTIONS } from '../../api/queries';
+import useTransactions from '../../hooks/useTransactions';
 
 function History() {
   // const expensesContext = useContext(ExpensesContext);
@@ -31,7 +25,7 @@ function History() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const dt = useRef(null);
-  const { data, error, status } = getTransactions();
+  const { data, error, status } = useTransactions();
 
   function descriptionBodyTemplate(rowData) {
     return <React.Fragment>{rowData.name}</React.Fragment>;

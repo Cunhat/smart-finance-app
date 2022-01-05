@@ -84,11 +84,15 @@ function Dashboard() {
     setMonth(event.value);
   };
 
-  const seriesPie = [44, 55, 41, 17, 15];
+  const seriesPie = [0, 60, 20, 0, 0, 20];
 
   const pieOptions = {
     chart: {
       type: 'donut'
+    },
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    title: {
+      text: 'Pie'
     },
     responsive: [
       {
@@ -122,7 +126,7 @@ function Dashboard() {
           onChange={onChange}
           optionLabel="name"
           placeholder="Select a month"
-          style={{ width: '240px' }}
+          style={{ width: '300px' }}
         />
       </div>
       <div className="categoriesWidgetsContainer">
@@ -137,65 +141,6 @@ function Dashboard() {
           </WidgetContainer>
         </div>
       </div>
-
-      {/* <div className="infoWidgetsContainer">
-        <InfoPanel>
-          <Info label={'Income'} info={'1700k'} />
-          <Icon
-            icon={faHandHoldingUsd}
-            style={{
-              color: '#FFF',
-              border: 'solid 1px green',
-              backgroundColor: 'green',
-              padding: '15px',
-              borderRadius: '23px',
-              fontSize: '70px'
-            }}
-          />
-        </InfoPanel>
-        <InfoPanel>
-          <Info label={'Outcome'} info={'200K'} />
-          <Icon
-            icon={faHandHoldingUsd}
-            style={{
-              color: '#FFF',
-              border: 'solid 1px red',
-              backgroundColor: 'red',
-              padding: '15px',
-              borderRadius: '23px',
-              fontSize: '70px'
-            }}
-          />
-        </InfoPanel>
-        <InfoPanel>
-          <Info label={'Fixed Expenses'} info={'200K'} />
-          <Icon
-            icon={faHandHoldingUsd}
-            style={{
-              color: '#FFF',
-              border: 'solid 1px yellow',
-              backgroundColor: 'yellow',
-              padding: '15px',
-              borderRadius: '23px',
-              fontSize: '70px'
-            }}
-          />
-        </InfoPanel>
-        <InfoPanel>
-          <Info label={'Passive Income'} info={'200K'} />
-          <Icon
-            icon={faHandHoldingUsd}
-            style={{
-              color: '#FFF',
-              border: 'solid 1px yellow',
-              backgroundColor: 'yellow',
-              padding: '15px',
-              borderRadius: '23px',
-              fontSize: '70px'
-            }}
-          />
-        </InfoPanel>
-      </div> */}
     </PageContainer>
   );
 }
