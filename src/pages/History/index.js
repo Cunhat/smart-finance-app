@@ -44,7 +44,6 @@ function History() {
   }
 
   function dateBodyTemplate(rowData) {
-    debugger;
     const date = new Date(parseInt(rowData.date, 10));
     const year = date.getFullYear();
     const month = `0${date.getMonth() + 1}`.slice(-2);
