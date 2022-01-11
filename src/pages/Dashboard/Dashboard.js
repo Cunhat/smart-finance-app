@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 
-// import { faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from 'primereact/dropdown';
 import PageContainer from '../../components/PageContainer';
 import WidgetContainer from '../../components/WidgetContainer';
-// import InfoPanel from '../../components/InfoPanel';
-// import Info from '../../components/InfoPanel/Info';
-// import Icon from '../../components/InfoPanel/Icon';
+
 import useTransactions from '../../hooks/useTransactions';
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-debugger */
@@ -50,122 +47,20 @@ const dat = {
   }
 };
 
+const example = {
+  january: {
+    categoriesExpensesLabels: [],
+    categoriesExpensesValues: []
+  }
+};
+
 function Dashboard() {
   const [month, setMonth] = useState(months[new Date().getMonth()]);
   const { data, error, status } = useTransactions();
-
-  const insertCategory = (transaction, pieCategories, totalAmountSpent) => {
-    const pieAux = pieCategories;
-    const updatedCateg = pieAux.findIndex(
-      (elem) => elem.categoryName === transaction.category.name
-    );
-    if (updatedCateg !== -1) {
-      pieAux[updatedCateg].total += transaction.value;
-      // pieAux[updatedCateg].percentage = (pieAux[updatedCateg].total / totalAmountSpent) * 100;
-      return pieAux;
-    }
-
-    pieAux.push({
-      categoryName: transaction.category.name,
-      percentage: 0,
-      total: transaction.value
-    });
-    return pieAux;
-  };
-
-  const insertSubCategory = (transaction, pieSubCategories, totalAmountSpent) => {
-    const pieAux = pieSubCategories;
-    const updatedSubCateg = pieAux.findIndex(
-      (elem) => elem.subCategoryName === transaction.subCategory.name
-    );
-    if (updatedSubCateg !== -1) {
-      pieAux[updatedSubCateg].total += transaction.value;
-      // pieAux[updatedSubCateg].percentage =
-      //   (pieAux[updatedSubCateg].total / totalAmountSpent) * 100;
-      return pieAux;
-    }
-
-    pieAux.push({
-      subCategoryName: transaction.subCategory.name,
-      percentage: 0,
-      total: transaction.value
-    });
-    return pieAux;
-  };
-
-  const createDataObjt = (transactionData) => {
-    let finalObjt = {};
-    transactionData.transaction.forEach((transaction) => {
-      const teste = new Date(parseInt(transaction.date, 10)).getMonth();
-
-      if (finalObjt[months[teste].name] === undefined) {
-        const transactionArr = [];
-        transactionArr.push(transaction);
-        finalObjt = {
-          ...finalObjt,
-          [months[teste].name]: {
-            transactions: transactionArr,
-            totalAmountSpent: transaction.value,
-            pieCategories: [
-              {
-                categoryName: transaction.category.name,
-                percentage: 0,
-                total: transaction.value
-              }
-            ],
-            pieSubCategories: [
-              {
-                SubCategoryName: transaction.subCategory.name,
-                percentage: 0,
-                total: transaction.value
-              }
-            ]
-          }
-        };
-      } else {
-        const updatedArray = finalObjt[months[teste].name].transactions;
-        updatedArray.push(transaction);
-        finalObjt[months[teste].name].transactions = updatedArray;
-        finalObjt[months[teste].name].totalAmountSpent += transaction.value;
-        finalObjt[months[teste].name].pieCategories = insertCategory(
-          transaction,
-          finalObjt[months[teste].name].pieCategories,
-          finalObjt[months[teste].name].totalAmountSpent
-        );
-        finalObjt[months[teste].name].pieSubCategories = insertSubCategory(
-          transaction,
-          finalObjt[months[teste].name].pieSubCategories,
-          finalObjt[months[teste].name].totalAmountSpent
-        );
-      }
-    });
-    let totalAmountSpent = 0;
-    months.forEach((selectedMonth) => {
-      const selectedMonthElem = finalObjt[selectedMonth.name];
-      if (selectedMonthElem?.transactions) {
-        selectedMonthElem.transactions?.forEach((transaction) => {
-          totalAmountSpent += transaction.value;
-        });
-        selectedMonthElem.totalAmountSpent = totalAmountSpent;
-        selectedMonthElem.pieCategories.forEach((pieCatg) => {
-          const pieCategorie = pieCatg;
-          pieCategorie.percentage = (pieCategorie.total / totalAmountSpent) * 100;
-        });
-        selectedMonthElem.pieSubCategories.forEach((pieSubCatg) => {
-          const pieSubCategorie = pieSubCatg;
-          pieSubCategorie.percentage = (pieSubCategorie.total / totalAmountSpent) * 100;
-        });
-      }
-    });
-
-    console.log(finalObjt);
-  };
-
-  useEffect(() => {
-    if (status === 'success') {
-      createDataObjt(data);
-    }
-  }, [status, data]);
+  const [transactionData, setTransactionData] = useState({});
+  const [monthlyExpenses, setMonthlyExpenses] = useState([]);
+  const [categoriesExpensesPieChartData, setCategoriesExpensesPieChartData] = useState({});
+  // const [categoriesExpensesValues, setCategoriesExpensesValues] = useState([]);
 
   const labels = [
     'January',
@@ -208,28 +103,184 @@ function Dashboard() {
   const series = [
     {
       name: 'Income',
-      data: [1636, 1636, 1636, 1636, 1636, 1636, 1636, 1636, 1636, 1636, 1636, 1636],
+      data: Array(12).fill(2100),
       type: 'area'
     },
     {
       name: 'Expenses',
-      data: [300, 400, 450, 500, 490, 600, 700, 910, 920, 560, 440, 1000],
+      data: monthlyExpenses,
       type: 'area'
     }
   ];
+
+  useEffect(() => {
+    const createPieCategories = (pieData) => {
+      const arrayOfCategoriesDataValues = [];
+      const arrayOfCategoriesDataLabels = [];
+
+      pieData?.pieCategories?.forEach((category) => {
+        if (category !== undefined) {
+          arrayOfCategoriesDataValues.push(category.percentage);
+          arrayOfCategoriesDataLabels.push(category.categoryName);
+        }
+      });
+      return { arrayOfCategoriesDataValues, arrayOfCategoriesDataLabels };
+    };
+
+    if (Object.keys(transactionData).length !== 0) {
+      const arrayOfMonthlyExpenses = [];
+      let objectCategoriesPie = {};
+
+      labels.forEach((label) => {
+        arrayOfMonthlyExpenses.push(
+          transactionData[label] !== undefined
+            ? transactionData[label].totalAmountSpent.toFixed(2)
+            : 0
+        );
+
+        const { arrayOfCategoriesDataValues, arrayOfCategoriesDataLabels } = createPieCategories(
+          transactionData[label]
+        );
+        objectCategoriesPie = {
+          ...objectCategoriesPie,
+          [label]: {
+            categoriesExpensesLabels: arrayOfCategoriesDataLabels,
+            categoriesExpensesValues: arrayOfCategoriesDataValues
+          }
+        };
+      });
+      setCategoriesExpensesPieChartData(objectCategoriesPie);
+      console.log(objectCategoriesPie);
+      setMonthlyExpenses(arrayOfMonthlyExpenses);
+    }
+  }, [transactionData]);
+
+  const insertCategory = (transaction, pieCategories) => {
+    const pieAux = pieCategories;
+    const updatedCateg = pieAux.findIndex(
+      (elem) => elem.categoryName === transaction.category.name
+    );
+    if (updatedCateg !== -1) {
+      pieAux[updatedCateg].total += transaction.value;
+      return pieAux;
+    }
+
+    pieAux.push({
+      categoryName: transaction.category.name,
+      percentage: 0,
+      total: transaction.value
+    });
+    return pieAux;
+  };
+
+  const insertSubCategory = (transaction, pieSubCategories) => {
+    const pieAux = pieSubCategories;
+    const updatedSubCateg = pieAux.findIndex(
+      (elem) => elem.subCategoryName === transaction.subCategory.name
+    );
+    if (updatedSubCateg !== -1) {
+      pieAux[updatedSubCateg].total += transaction.value;
+      return pieAux;
+    }
+
+    pieAux.push({
+      subCategoryName: transaction.subCategory.name,
+      percentage: 0,
+      total: transaction.value
+    });
+    return pieAux;
+  };
+
+  const createDataObjt = (transactionDataObj) => {
+    let finalObjt = {};
+    transactionDataObj.transaction.forEach((transaction) => {
+      const teste = new Date(parseInt(transaction.date, 10)).getMonth();
+
+      if (finalObjt[months[teste].name] === undefined) {
+        const transactionArr = [];
+        transactionArr.push(transaction);
+        finalObjt = {
+          ...finalObjt,
+          [months[teste].name]: {
+            transactions: transactionArr,
+            totalAmountSpent: transaction.value,
+            pieCategories: [
+              {
+                categoryName: transaction.category.name,
+                percentage: 0,
+                total: transaction.value
+              }
+            ],
+            pieSubCategories: [
+              {
+                SubCategoryName: transaction.subCategory.name,
+                percentage: 0,
+                total: transaction.value
+              }
+            ]
+          }
+        };
+      } else {
+        const updatedArray = finalObjt[months[teste].name].transactions;
+        updatedArray.push(transaction);
+        finalObjt[months[teste].name].transactions = updatedArray;
+        finalObjt[months[teste].name].totalAmountSpent += transaction.value;
+        finalObjt[months[teste].name].pieCategories = insertCategory(
+          transaction,
+          finalObjt[months[teste].name].pieCategories
+        );
+        finalObjt[months[teste].name].pieSubCategories = insertSubCategory(
+          transaction,
+          finalObjt[months[teste].name].pieSubCategories
+        );
+      }
+    });
+
+    months.forEach((selectedMonth) => {
+      let totalAmountSpent = 0;
+      const selectedMonthElem = finalObjt[selectedMonth.name];
+      if (selectedMonthElem?.transactions) {
+        selectedMonthElem.transactions?.forEach((transaction) => {
+          totalAmountSpent += transaction.value;
+        });
+        selectedMonthElem.totalAmountSpent = totalAmountSpent;
+        selectedMonthElem.pieCategories.forEach((pieCatg) => {
+          const pieCategorie = pieCatg;
+          pieCategorie.percentage = (pieCategorie.total / totalAmountSpent) * 100;
+        });
+        selectedMonthElem.pieSubCategories.forEach((pieSubCatg) => {
+          const pieSubCategorie = pieSubCatg;
+          pieSubCategorie.percentage = (pieSubCategorie.total / totalAmountSpent) * 100;
+        });
+      }
+    });
+    setTransactionData(finalObjt);
+  };
+
+  useEffect(() => {
+    if (status === 'success') {
+      createDataObjt(data);
+    }
+  }, [status, data]);
+
   /* eslint-disable no-debugger */
 
   const onChange = (event) => {
     setMonth(event.value);
   };
-
-  const seriesPie = [0, 60, 20, 0, 0, 20];
+  const seriesPie =
+    Object.keys(categoriesExpensesPieChartData).length === 0
+      ? []
+      : categoriesExpensesPieChartData[month.name].categoriesExpensesValues; // categoriesExpensesValues;
 
   const pieOptions = {
     chart: {
       type: 'donut'
     },
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    labels:
+      Object.keys(categoriesExpensesPieChartData).length === 0
+        ? []
+        : categoriesExpensesPieChartData[month.name]?.categoriesExpensesLabels, // categoriesExpensesLabels,
     title: {
       text: 'Pie'
     },
@@ -247,6 +298,11 @@ function Dashboard() {
       }
     ]
   };
+
+  useEffect(() => {
+    console.log(seriesPie);
+  }, [month]);
+
   return (
     <PageContainer>
       <h1>Dashboard</h1>
@@ -270,15 +326,17 @@ function Dashboard() {
       </div>
       <div className="categoriesWidgetsContainer">
         <div className="categoriesWidgetsContainerGrid">
+          {Object.keys(categoriesExpensesPieChartData).length !== 0 && (
+            <WidgetContainer>
+              <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
+            </WidgetContainer>
+          )}
+        </div>
+        {/* <div className="categoriesWidgetsContainerGrid">
           <WidgetContainer>
             <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
           </WidgetContainer>
-        </div>
-        <div className="categoriesWidgetsContainerGrid">
-          <WidgetContainer>
-            <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
-          </WidgetContainer>
-        </div>
+        </div> */}
       </div>
     </PageContainer>
   );
