@@ -60,6 +60,7 @@ function Dashboard() {
   const [transactionData, setTransactionData] = useState({});
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
   const [categoriesExpensesPieChartData, setCategoriesExpensesPieChartData] = useState({});
+  const [subCategoriesExpensesPieChartData, setSubCategoriesExpensesPieChartData] = useState({});
   // const [categoriesExpensesValues, setCategoriesExpensesValues] = useState([]);
 
   const labels = [
@@ -127,9 +128,24 @@ function Dashboard() {
       return { arrayOfCategoriesDataValues, arrayOfCategoriesDataLabels };
     };
 
+    const createPieSubCategories = (pieData) => {
+      const arrayOfSubCategoriesDataValues = [];
+      const arrayOfSubCategoriesDataLabels = [];
+
+      pieData?.pieSubCategories?.forEach((subCategory) => {
+        if (subCategory !== undefined) {
+          debugger;
+          arrayOfSubCategoriesDataValues.push(subCategory.percentage);
+          arrayOfSubCategoriesDataLabels.push(subCategory.subCategoryName);
+        }
+      });
+      return { arrayOfSubCategoriesDataValues, arrayOfSubCategoriesDataLabels };
+    };
+
     if (Object.keys(transactionData).length !== 0) {
       const arrayOfMonthlyExpenses = [];
       let objectCategoriesPie = {};
+      let objectSubCategoriesPie = {};
 
       labels.forEach((label) => {
         arrayOfMonthlyExpenses.push(
@@ -148,9 +164,19 @@ function Dashboard() {
             categoriesExpensesValues: arrayOfCategoriesDataValues
           }
         };
+        const { arrayOfSubCategoriesDataValues, arrayOfSubCategoriesDataLabels } =
+          createPieSubCategories(transactionData[label]);
+        objectSubCategoriesPie = {
+          ...objectSubCategoriesPie,
+          [label]: {
+            subCategoriesExpensesLabels: arrayOfSubCategoriesDataLabels,
+            subCategoriesExpensesValues: arrayOfSubCategoriesDataValues
+          }
+        };
       });
+
       setCategoriesExpensesPieChartData(objectCategoriesPie);
-      console.log(objectCategoriesPie);
+      setSubCategoriesExpensesPieChartData(objectSubCategoriesPie);
       setMonthlyExpenses(arrayOfMonthlyExpenses);
     }
   }, [transactionData]);
@@ -213,7 +239,7 @@ function Dashboard() {
             ],
             pieSubCategories: [
               {
-                SubCategoryName: transaction.subCategory.name,
+                subCategoryName: transaction.subCategory.name,
                 percentage: 0,
                 total: transaction.value
               }
@@ -268,12 +294,12 @@ function Dashboard() {
   const onChange = (event) => {
     setMonth(event.value);
   };
-  const seriesPie =
+  const seriesPieCategories =
     Object.keys(categoriesExpensesPieChartData).length === 0
       ? []
       : categoriesExpensesPieChartData[month.name].categoriesExpensesValues; // categoriesExpensesValues;
 
-  const pieOptions = {
+  const pieOptionsCategories = {
     chart: {
       type: 'donut'
     },
@@ -282,7 +308,7 @@ function Dashboard() {
         ? []
         : categoriesExpensesPieChartData[month.name]?.categoriesExpensesLabels, // categoriesExpensesLabels,
     title: {
-      text: 'Pie'
+      text: 'Categories'
     },
     responsive: [
       {
@@ -298,10 +324,36 @@ function Dashboard() {
       }
     ]
   };
+  const seriesPieSubCategories =
+    Object.keys(subCategoriesExpensesPieChartData).length === 0
+      ? []
+      : subCategoriesExpensesPieChartData[month.name].subCategoriesExpensesValues; // categoriesExpensesValues;
 
-  useEffect(() => {
-    console.log(seriesPie);
-  }, [month]);
+  const pieOptionsSubCategories = {
+    chart: {
+      type: 'donut'
+    },
+    labels:
+      Object.keys(subCategoriesExpensesPieChartData).length === 0
+        ? []
+        : subCategoriesExpensesPieChartData[month.name]?.subCategoriesExpensesLabels, // categoriesExpensesLabels,
+    title: {
+      text: 'Sub Categories'
+    },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    ]
+  };
 
   return (
     <PageContainer>
@@ -328,15 +380,27 @@ function Dashboard() {
         <div className="categoriesWidgetsContainerGrid">
           {Object.keys(categoriesExpensesPieChartData).length !== 0 && (
             <WidgetContainer>
-              <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
+              <Chart
+                type={'donut'}
+                series={seriesPieCategories}
+                options={pieOptionsCategories}
+                height="350"
+              />
             </WidgetContainer>
           )}
         </div>
-        {/* <div className="categoriesWidgetsContainerGrid">
-          <WidgetContainer>
-            <Chart type={'donut'} series={seriesPie} options={pieOptions} height="350" />
-          </WidgetContainer>
-        </div> */}
+        <div className="categoriesWidgetsContainerGrid">
+          {Object.keys(categoriesExpensesPieChartData).length !== 0 && (
+            <WidgetContainer>
+              <Chart
+                type={'donut'}
+                series={seriesPieSubCategories}
+                options={pieOptionsSubCategories}
+                height="350"
+              />
+            </WidgetContainer>
+          )}
+        </div>
       </div>
     </PageContainer>
   );
