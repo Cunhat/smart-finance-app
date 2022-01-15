@@ -6,53 +6,11 @@ import PageContainer from '../../components/PageContainer';
 import WidgetContainer from '../../components/WidgetContainer';
 
 import useTransactions from '../../hooks/useTransactions';
+import { labels, months, anualOptionsChart, anualSeriesChart } from '../../utils';
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-debugger */
 
 import './styles.css';
-
-const months = [
-  { name: 'January' },
-  { name: 'Febuary' },
-  { name: 'March' },
-  { name: 'April' },
-  { name: 'May' },
-  { name: 'June' },
-  { name: 'July' },
-  { name: 'August' },
-  { name: 'September' },
-  { name: 'October' },
-  { name: 'November' },
-  { name: 'December' }
-];
-
-const dat = {
-  january: {
-    transactions: [],
-    total: '',
-    pieCategories: [
-      {
-        categoryName: '',
-        percentage: '',
-        total: ''
-      }
-    ],
-    pieSubCategories: [
-      {
-        categoryName: '',
-        percentage: '',
-        total: ''
-      }
-    ]
-  }
-};
-
-const example = {
-  january: {
-    categoriesExpensesLabels: [],
-    categoriesExpensesValues: []
-  }
-};
 
 function Dashboard() {
   const [month, setMonth] = useState(months[new Date().getMonth()]);
@@ -61,58 +19,6 @@ function Dashboard() {
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
   const [categoriesExpensesPieChartData, setCategoriesExpensesPieChartData] = useState({});
   const [subCategoriesExpensesPieChartData, setSubCategoriesExpensesPieChartData] = useState({});
-  // const [categoriesExpensesValues, setCategoriesExpensesValues] = useState([]);
-
-  const labels = [
-    'January',
-    'Febuary',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-
-  const options = {
-    chart: {
-      type: 'area',
-      height: '100%',
-      zoom: {
-        enabled: false
-      }
-    },
-    xaxis: {
-      categories: labels
-    },
-    stroke: {
-      curve: 'smooth'
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: ['#262b40', '#36b4cb'],
-    markers: {
-      colors: ['#262b40', '#36b4cb']
-    }
-  };
-
-  const series = [
-    {
-      name: 'Income',
-      data: Array(12).fill(2100),
-      type: 'area'
-    },
-    {
-      name: 'Expenses',
-      data: monthlyExpenses,
-      type: 'area'
-    }
-  ];
 
   useEffect(() => {
     const createPieCategories = (pieData) => {
@@ -134,7 +40,6 @@ function Dashboard() {
 
       pieData?.pieSubCategories?.forEach((subCategory) => {
         if (subCategory !== undefined) {
-          debugger;
           arrayOfSubCategoriesDataValues.push(subCategory.percentage);
           arrayOfSubCategoriesDataLabels.push(subCategory.subCategoryName);
         }
@@ -289,8 +194,6 @@ function Dashboard() {
     }
   }, [status, data]);
 
-  /* eslint-disable no-debugger */
-
   const onChange = (event) => {
     setMonth(event.value);
   };
@@ -300,9 +203,7 @@ function Dashboard() {
       : categoriesExpensesPieChartData[month.name].categoriesExpensesValues; // categoriesExpensesValues;
 
   const pieOptionsCategories = {
-    chart: {
-      type: 'donut'
-    },
+    chart: {},
     labels:
       Object.keys(categoriesExpensesPieChartData).length === 0
         ? []
@@ -310,19 +211,13 @@ function Dashboard() {
     title: {
       text: 'Categories'
     },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
-          },
-          legend: {
-            position: 'bottom'
-          }
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '0%'
         }
       }
-    ]
+    }
   };
   const seriesPieSubCategories =
     Object.keys(subCategoriesExpensesPieChartData).length === 0
@@ -331,7 +226,7 @@ function Dashboard() {
 
   const pieOptionsSubCategories = {
     chart: {
-      type: 'donut'
+      type: 'pie'
     },
     labels:
       Object.keys(subCategoriesExpensesPieChartData).length === 0
@@ -340,19 +235,13 @@ function Dashboard() {
     title: {
       text: 'Sub Categories'
     },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
-          },
-          legend: {
-            position: 'bottom'
-          }
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '0%'
         }
       }
-    ]
+    }
   };
 
   return (
@@ -364,7 +253,11 @@ function Dashboard() {
         <div className="yearToggle selected">2022</div>
       </div>
       <WidgetContainer>
-        <Chart series={series} options={options} height="350" />
+        <Chart
+          series={anualSeriesChart(monthlyExpenses)}
+          options={anualOptionsChart}
+          height="350"
+        />
       </WidgetContainer>
       <div className="containerDropDown">
         <Dropdown
@@ -378,20 +271,19 @@ function Dashboard() {
       </div>
       <div className="categoriesWidgetsContainer">
         <div className="categoriesWidgetsContainerGrid">
-          {Object.keys(categoriesExpensesPieChartData).length !== 0 && (
-            <WidgetContainer>
-              <Chart
-                type={'donut'}
-                series={seriesPieCategories}
-                options={pieOptionsCategories}
-                height="350"
-              />
+          {Object.keys(categoriesExpensesPieChartData).length !== 0 &&
+          categoriesExpensesPieChartData[month.name].categoriesExpensesValues.length > 0 ? (
+            <WidgetContainer style={{ height: '400px' }}>
+              <Chart type={'donut'} series={seriesPieCategories} options={pieOptionsCategories} />
             </WidgetContainer>
+          ) : (
+            <WidgetContainer style={{ height: '400px' }}>No Data to be shown</WidgetContainer>
           )}
         </div>
         <div className="categoriesWidgetsContainerGrid">
-          {Object.keys(categoriesExpensesPieChartData).length !== 0 && (
-            <WidgetContainer>
+          {Object.keys(categoriesExpensesPieChartData).length !== 0 &&
+          subCategoriesExpensesPieChartData[month.name].subCategoriesExpensesValues.length > 0 ? (
+            <WidgetContainer style={{ height: '400px' }}>
               <Chart
                 type={'donut'}
                 series={seriesPieSubCategories}
@@ -399,6 +291,8 @@ function Dashboard() {
                 height="350"
               />
             </WidgetContainer>
+          ) : (
+            <WidgetContainer style={{ height: '400px' }}>No Data to be shown</WidgetContainer>
           )}
         </div>
       </div>

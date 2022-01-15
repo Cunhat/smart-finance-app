@@ -32,7 +32,7 @@ function Sidebar({ hideSideBar }) {
         <div className={hideSideBar ? 'sideBarItemsContainer' : 'sideBarItemsContainer hide'}>
           <SideBarIdem
             title={'Dashboard'}
-            path={'/dashboard'}
+            path={'/'}
             showSideBar={hideSideBar}
             icon={faChartPie}></SideBarIdem>
           <SideBarIdem

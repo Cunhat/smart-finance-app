@@ -33,7 +33,7 @@ function App() {
             <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
               <TopBar showHideSideBar={hideBarHandler} />
               <Switch>
-                <Route path="/dashboard" exact component={Dashboard} />
+                <Route path="/" exact component={Dashboard} />
                 <Route path="/transactionsHistory" component={History} />
                 <Route path="/transactions" component={Transactions} />
                 <Route path="/settings" component={Settings} />
