@@ -41,12 +41,12 @@
   margin-left: 250px;
   transition: 300ms;
   background-color: #f5f8fb;
-  height: 100vh;
+  height: 100%;
 }
 
 .mainContainerHidedSideBar {
   margin-left: 90px;
   transition: 300ms;
   background-color: #f5f8fb;
-  height: 100vh;
+  height: 100%;
 }

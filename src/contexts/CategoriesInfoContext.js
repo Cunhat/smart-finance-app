@@ -21,6 +21,7 @@ function getCategory() {
 export function CategoriesInfoContextProvider({ children }) {
   const [categorySelectItems, setCategorySelectItems] = useState([]);
   const [subCategorySelectItems, setSubCategorySelectItems] = useState([]);
+
   const { data, error } = getCategory();
 
   useEffect(() => {

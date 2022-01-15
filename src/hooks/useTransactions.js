@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { useQuery } from 'react-query';
 import { request } from 'graphql-request';
 import { DEV_ENDPOINT } from '../Configs';

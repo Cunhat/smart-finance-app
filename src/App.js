@@ -23,7 +23,6 @@ function App() {
   function hideBarHandler() {
     setHideSidebar(!hideSideBar);
   }
-
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
@@ -39,6 +38,7 @@ function App() {
                 <Route path="/settings" component={Settings} />
               </Switch>
             </main>
+
             <NotificationContainer />
           </ExpensesContextProvider>
         </CategoriesInfoContextProvider>

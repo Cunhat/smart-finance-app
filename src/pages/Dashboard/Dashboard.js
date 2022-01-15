@@ -203,7 +203,9 @@ function Dashboard() {
       : categoriesExpensesPieChartData[month.name].categoriesExpensesValues; // categoriesExpensesValues;
 
   const pieOptionsCategories = {
-    chart: {},
+    chart: {
+      type: 'pie'
+    },
     labels:
       Object.keys(categoriesExpensesPieChartData).length === 0
         ? []
@@ -274,7 +276,12 @@ function Dashboard() {
           {Object.keys(categoriesExpensesPieChartData).length !== 0 &&
           categoriesExpensesPieChartData[month.name].categoriesExpensesValues.length > 0 ? (
             <WidgetContainer style={{ height: '400px' }}>
-              <Chart type={'donut'} series={seriesPieCategories} options={pieOptionsCategories} />
+              <Chart
+                type={'donut'}
+                series={seriesPieCategories}
+                options={pieOptionsCategories}
+                height="350"
+              />
             </WidgetContainer>
           ) : (
             <WidgetContainer style={{ height: '400px' }}>No Data to be shown</WidgetContainer>
