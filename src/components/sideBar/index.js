@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 const SideBarIdem = ({ title, showSideBar, icon, path }) => (
   <NavLink
     to={path}
+    exact
     className={showSideBar ? 'sideBarItem' : 'sideBarItem hide'}
     activeClassName="selectedItem">
     <FontAwesomeIcon
