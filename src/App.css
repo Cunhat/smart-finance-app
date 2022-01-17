@@ -37,16 +37,13 @@
   }
 }
 
-.mainContainer {
-  margin-left: 250px;
-  transition: 300ms;
-  background-color: #f5f8fb;
-  height: 100%;
+.app-container {
+  display: flex;
+  height: 100vh;
 }
 
-.mainContainerHidedSideBar {
-  margin-left: 90px;
+.mainContainer {
   transition: 300ms;
   background-color: #f5f8fb;
-  height: 100%;
+  flex-grow: 1;
 }

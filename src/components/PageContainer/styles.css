@@ -1,7 +1,6 @@
 .pageContainer {
   background-color: #f5f8fb;
   padding: 20px;
-  height: 100%;
 }
 
 @media only screen and (min-width: 1920px) {

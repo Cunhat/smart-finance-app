@@ -28,18 +28,19 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <CategoriesInfoContextProvider>
           <ExpensesContextProvider>
-            <Sidebar hideSideBar={hideSideBar}></Sidebar>
-            <main className={hideSideBar ? 'mainContainer' : 'mainContainerHidedSideBar'}>
-              <TopBar showHideSideBar={hideBarHandler} />
-              <Switch>
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/transactionsHistory" component={History} />
-                <Route path="/transactions" component={Transactions} />
-                <Route path="/settings" component={Settings} />
-              </Switch>
-            </main>
-
-            <NotificationContainer />
+            <div className="app-container">
+              <Sidebar hideSideBar={hideSideBar}></Sidebar>
+              <main className="mainContainer">
+                <TopBar showHideSideBar={hideBarHandler} />
+                <Switch>
+                  <Route path="/" exact component={Dashboard} />
+                  <Route path="/transactionsHistory" component={History} />
+                  <Route path="/transactions" component={Transactions} />
+                  <Route path="/settings" component={Settings} />
+                </Switch>
+              </main>
+              <NotificationContainer />
+            </div>
           </ExpensesContextProvider>
         </CategoriesInfoContextProvider>
       </QueryClientProvider>
