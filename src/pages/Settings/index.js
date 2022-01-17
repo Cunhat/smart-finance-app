@@ -6,12 +6,13 @@ import CreateCategorySubCategoryWidget from '../../components/CreateCategorySubC
 import ListCategoriesWidget from '../../components/ListCategoriesWidget';
 import { CategoriesInfoContext } from '../../contexts/CategoriesInfoContext';
 import { createCategory, createSubCategory } from '../../api/queries';
+import PageContainer from '../../components/PageContainer';
 
 function Settings() {
   const categoriesContext = useContext(CategoriesInfoContext);
 
   return (
-    <div className="mainPagesContainer">
+    <PageContainer>
       <h1>Settings</h1>
       <PersonalInfoWidget />
       <div className="categoriesWidgetsContainer">
@@ -41,7 +42,7 @@ function Settings() {
           />
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }
 
