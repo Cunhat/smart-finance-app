@@ -16,7 +16,7 @@ function Login() {
           <input className="form-control-login" type="text" placeholder="Password" />
         </div>
         <div className="remember-me-forms">
-          <input type="checkbox" />
+          <input className="checkbox-input-login" type="checkbox" />
           <p className="login-card-label">Lost password?</p>
         </div>
         <button className="btn-log-in" type="submit">
