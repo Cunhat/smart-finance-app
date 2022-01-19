@@ -15,9 +15,11 @@ import 'react-notifications/lib/notifications.css';
 import { CategoriesInfoContextProvider } from './contexts/CategoriesInfoContext';
 import { ExpensesContextProvider } from './contexts/ExpensesContext';
 import History from './pages/History';
+import Login from './pages/Login';
 
 function App() {
   const [hideSideBar, setHideSidebar] = useState(true);
+  const [logedIn] = useState(false);
   const queryClient = new QueryClient();
 
   function hideBarHandler() {
@@ -29,17 +31,22 @@ function App() {
         <CategoriesInfoContextProvider>
           <ExpensesContextProvider>
             <div className="app-container">
-              <Sidebar hideSideBar={hideSideBar}></Sidebar>
-              <main className="mainContainer">
-                <TopBar showHideSideBar={hideBarHandler} />
-                <Switch>
-                  <Route path="/" exact component={Dashboard} />
-                  <Route path="/transactionsHistory" component={History} />
-                  <Route path="/transactions" component={Transactions} />
-                  <Route path="/settings" component={Settings} />
-                </Switch>
-              </main>
-              <NotificationContainer />
+              <Switch>
+                <Route path="/login" exact component={Login} />
+                {logedIn && (
+                  <>
+                    <Sidebar hideSideBar={hideSideBar}></Sidebar>
+                    <main className="mainContainer">
+                      <TopBar showHideSideBar={hideBarHandler} />
+                      <Route path="/" exact component={Dashboard} />
+                      <Route path="/transactionsHistory" component={History} />
+                      <Route path="/transactions" component={Transactions} />
+                      <Route path="/settings" component={Settings} />
+                    </main>
+                    <NotificationContainer />
+                  </>
+                )}
+              </Switch>
             </div>
           </ExpensesContextProvider>
         </CategoriesInfoContextProvider>
