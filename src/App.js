@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Sidebar from './components/sideBar';
@@ -19,39 +19,47 @@ import Login from './pages/Login';
 
 function App() {
   const [hideSideBar, setHideSidebar] = useState(true);
-  const [logedIn] = useState(false);
+  const [logedIn] = useState(true);
   const queryClient = new QueryClient();
 
   function hideBarHandler() {
     setHideSidebar(!hideSideBar);
   }
   return (
-    <Router>
-      <QueryClientProvider client={queryClient}>
-        <CategoriesInfoContextProvider>
-          <ExpensesContextProvider>
-            <div className="app-container">
-              <Switch>
-                <Route path="/login" exact component={Login} />
+    <QueryClientProvider client={queryClient}>
+      <CategoriesInfoContextProvider>
+        <ExpensesContextProvider>
+          <div className="app-container">
+            <BrowserRouter>
+              <Routes>
+                <Route path="/login" element={<Login />} />
                 {logedIn && (
                   <>
                     <Sidebar hideSideBar={hideSideBar}></Sidebar>
                     <main className="mainContainer">
                       <TopBar showHideSideBar={hideBarHandler} />
-                      <Route path="/" exact component={Dashboard} />
-                      <Route path="/transactionsHistory" component={History} />
-                      <Route path="/transactions" component={Transactions} />
-                      <Route path="/settings" component={Settings} />
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/transactionsHistory" element={<History />} />
+                      <Route path="/transactions" element={<Transactions />} />
+                      <Route path="/settings" element={<Settings />} />
+                      <Route
+                        path="*"
+                        element={
+                          <main style={{ padding: '1rem' }}>
+                            <p>There is nothing here!</p>
+                          </main>
+                        }
+                      />
                     </main>
                     <NotificationContainer />
                   </>
                 )}
-              </Switch>
-            </div>
-          </ExpensesContextProvider>
-        </CategoriesInfoContextProvider>
-      </QueryClientProvider>
-    </Router>
+              </Routes>
+            </BrowserRouter>
+          </div>
+        </ExpensesContextProvider>
+      </CategoriesInfoContextProvider>
+    </QueryClientProvider>
   );
 }
 

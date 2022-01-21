@@ -1,8 +1,19 @@
 /* eslint-disable no-debugger */
-import React from 'react';
+import React, { useRef } from 'react';
 import './styles.css';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 
 function Login() {
+  const emailRef = useRef({});
+  const passwordRef = useRef({});
+
+  function hadleSignIn() {
+    if (emailRef.current.value.length > 0 && passwordRef.current.value.length > 0) {
+      alert('Sign In');
+    }
+  }
+
   return (
     <div className="login-container">
       <div className="login-card-container">
@@ -11,20 +22,28 @@ function Login() {
         </div>
         <div className="login-card-forms">
           <p className="login-card-label">Your Email</p>
-          <input className="form-control-login" type="text" placeholder="Email" />
+          <InputText
+            value={emailRef.current.value}
+            type="text"
+            ref={emailRef}
+            className="inputFormTrans"
+            placeholder="Email"
+            onChange={() => {}}></InputText>
           <p className="login-card-label">Your Password</p>
-          <input className="form-control-login" type="text" placeholder="Password" />
+          <InputText
+            value={passwordRef.current.value}
+            ref={passwordRef}
+            type="password"
+            className="inputFormTrans"
+            placeholder="Password"
+            onChange={() => {}}></InputText>
         </div>
-        <div className="remember-me-forms">
-          <input type="checkbox" />
-          <p className="login-card-label">Lost password?</p>
-        </div>
-        <button className="btn-log-in" type="submit">
-          Sign in
-        </button>
-        <section className="create-account-section">
-          <b className="create-account-label">Not registered? Create account</b>
-        </section>
+        <Button
+          className="loginButton"
+          label="Sign In"
+          onClick={() => hadleSignIn()}
+          disabled={false}
+        />
       </div>
     </div>
   );

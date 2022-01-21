@@ -15,13 +15,15 @@ function Tabs({ name }) {
       <div className="tabsTitleContainer">
         <div
           className={selectedValue === 0 ? 'tabSelectedItem' : 'tabItem'}
-          onClick={() => changeTabHandler(0)}>
+          onClick={() => changeTabHandler(0)}
+        >
           <FontAwesomeIcon icon={faUpload} className="iconTabs" />
           <span className="labelTabs">Upload file</span>
         </div>
         <div
           className={selectedValue === 1 ? 'tabSelectedItem' : 'tabItem'}
-          onClick={() => changeTabHandler(1)}>
+          onClick={() => changeTabHandler(1)}
+        >
           <FontAwesomeIcon icon={faPlus} className="iconTabs" />
           <span className="labelTabs">Manual creation</span>
         </div>

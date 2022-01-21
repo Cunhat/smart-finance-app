@@ -1,62 +1,69 @@
-.login-container{
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #f2f4f6;
-    display: flex;
-    align-items: center;
+.login-container {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f2f4f6;
+  display: flex;
+  align-items: center;
 }
 
-.login-card-container{
-    width: 500px;
-    height: auto;
-    background-color: white;
-    margin-inline: auto;
-    border-radius: 0.5rem;
-    padding: 48px;
+.login-card-container {
+  width: 500px;
+  height: auto;
+  background-color: white;
+  margin-inline: auto;
+  border-radius: 0.5rem;
+  padding: 48px;
 }
 
-.login-card-title{
-    text-align: center;
-    margin-bottom: 10px;
-    color: #374151;
+.login-card-title {
+  text-align: center;
+  color: #374151;
 }
 
-.login-card-label{
-    font-weight: bold;
-    color: #374151;
+.login-card-label {
+  font-weight: bold;
+  color: #374151;
 }
 
 .form-control-login {
-    width: 100%;
-    height: 35px;
-    border-radius: 0.5rem;
-    border: .0625rem solid #d1d5db;
-    color: #6B727F;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 7%);
-    padding-left: 20px;
+  width: 100%;
+  height: 35px;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #d1d5db;
+  color: #6b727f;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 7%);
+  padding-left: 20px;
 }
 
-.remember-me-forms{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.remember-me-forms {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.btn-log-in{
-    width: 100%;
-    height: 40px;
-    border-radius: 0.5rem;
-    color: white;
-    background-color: #1f2937;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 7%);
-    padding-left: 20px;
-    margin-top: 20px;
-    font-size: 15px;
+.btn-log-in {
+  width: 100%;
+  height: 40px;
+  border-radius: 0.5rem;
+  color: white;
+  background-color: #1f2937;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 7%);
+  padding-left: 20px;
+  margin-top: 20px;
+  font-size: 15px;
 }
 
-.create-account-section{
-    text-align: center;
-    margin: 10px;
+.create-account-section {
+  text-align: center;
+  margin: 10px;
+}
+
+.loginButton {
+  width: 100%;
+}
+
+.login-card-forms {
+  margin: 20px 0px;
 }
