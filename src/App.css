@@ -36,14 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.app-container {
-  display: flex;
-  height: 100vh;
-}
-
-.mainContainer {
-  transition: 300ms;
-  background-color: #f5f8fb;
-  flex-grow: 1;
-}

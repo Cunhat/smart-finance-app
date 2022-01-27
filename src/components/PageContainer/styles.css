@@ -1,11 +1,18 @@
 .pageContainer {
   background-color: #f5f8fb;
-  padding: 20px;
+  display: flex;
+  height: 100vh;
 }
 
 @media only screen and (min-width: 1920px) {
-  .pageContainer {
+  .mainContainer {
     max-width: 1600px;
     margin-inline: auto;
   }
+}
+
+.mainContainer {
+  transition: 300ms;
+  background-color: #f5f8fb;
+  flex-grow: 1;
 }
